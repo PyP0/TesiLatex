@@ -19,7 +19,15 @@ L'autonomia può essere completa, nel caso in cui tutte le decisioni sul movimen
 
 \subsection[Cenni storici]{Cenni storici}
 Gli UAV sono nati in ambito puramente militare, per compiere missioni offensive o di ricognizione in cui non si poteva garantire l'incolumità del pilota; il loro sviluppo, portato avanti soprattutto dagli Stati Uniti, Israele e dal Regno Unito, ha proseguito di pari passo con la corsa agli armamenti durante le grandi guerre del 1900. \\
-I primi tentativi di realizzare velivoli senza pilota risalgono al periodo della Prima Guerra Mondiale, con l'obiettivo di creare degli “aerei bomba”, che in futuro si sarebbero evoluti negli attuali missili teleguidati. 
+I primi tentativi di realizzare velivoli senza pilota risalgono al periodo della Prima Guerra Mondiale, con l'obiettivo di creare degli “aerei bomba” (Fig. \ref{fig:Kettering_Bug}), che in futuro si sarebbero evoluti negli attuali missili teleguidati. 
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\begin{center}
+		\includegraphics[scale=1.1]{KetteringBug}
+	\end{center}
+	\caption{Kettering Bug, uno dei primi prototipi di UAV militare, 1918.} \label{fig:Kettering_Bug}
+\end{wrapfigure}
+
 Furono perfezionati durante la Seconda Guerra Mondiale, e usati anche come bersagli mobili per addestrare gli addetti alla difesa contraerea, mentre conobbero un forte sviluppo durante i conflitti successivi agli anni '50, in cui vennero impiegati sia come armi offensive che come ricognitori per rimediare alle forti perdite di vite umane subite dall'aeronautica militare.  \\
 I droni militari moderni sono nati a partire dagli anni '90: grazie al forte sviluppo dell'elettronica, la miniaturizzazione dei componenti e il conseguente abbattimento dei costi, l'interesse nei loro confronti è cresciuto sempre di più, fino a renderli una componente rilevante in molti eserciti contemporanei \cite{keane2013brief}.
 
@@ -28,10 +36,9 @@ Come già accennato, in ambito militare i droni sono impiegati principalmente co
 Un nuovo metodo di impiego li vede coinvolti nel fornire supporto logistico alle truppe a terra, sia come trasporto attrezzatura sia come ponte radio per comunicazioni sicure tra squadre rimaste isolate. \\
 L'impiego dei droni in campo civile invece è estremamente recente, e si studiano continuamente nuovi ambiti in cui poterli impiegare. 
 Generalmente in questo campo si impiegano UAV di dimensioni ben più ridotte rispetto alle controparti militari, spesso veri e propri velivoli aerei. \\
-Oltre allo scopo ricreativo e di fotografia aerea, sono stati impiegati con successo in agricoltura, per monitorare la salute del raccolto (la cosiddetta agricoltura di precisione) o irrigarlo, per ispezionare linee elettriche, condutture o edifici lesionati, nella sorveglianza domestica o di ampie aree geografiche, come supporto alle forze dell'ordine, nel monitoraggio della qualità ambientale dell'aria, come rilevatori di concentrazione di sostanze pericolose per l'uomo in seguito a disastri ambientali, nel supporto alle squadre di soccorso per individuare feriti o dispersi e per portare il prima possibile kit medici e defibrillatori agli operatori sanitari, come corrieri espressi per le spedizioni Amazon, contro il bracconaggio e per combattere incendi. \cite{dronespeak} 
+Oltre allo scopo ricreativo e di fotografia aerea, sono stati impiegati con successo in agricoltura, per monitorare la salute del raccolto (la cosiddetta agricoltura di precisione) o irrigarlo, per ispezionare linee elettriche, condutture o edifici lesionati, nella sorveglianza domestica o di ampie aree geografiche, come supporto alle forze dell'ordine, nel monitoraggio della qualità ambientale dell'aria, come rilevatori di concentrazione di sostanze pericolose per l'uomo in seguito a disastri ambientali, nel supporto alle squadre di soccorso per individuare feriti o dispersi e per portare il prima possibile kit medici e defibrillatori agli operatori sanitari, come corrieri espressi per le spedizioni Amazon \cite{amazon}, contro il bracconaggio e per combattere incendi. \cite{dronespeak} 
 
 \subsection[Tassonomia]{Tassonomia}
-%(https://it.wikipedia.org/wiki/Aeromobile_a_pilotaggio_remoto#cite_ref-9)
 Non esiste un metodo unico per poter categorizzare efficacemente i droni, in quanto essi variano enormemente per caratteristiche tecniche e ambiti di utilizzo. Essi infatti possono essere suddivisi per:
 \begin{itemize}
 	\item Ambito:
@@ -41,7 +48,7 @@ Non esiste un metodo unico per poter categorizzare efficacemente i droni, in qua
 			\item Ricerca e sviluppo;
 			\item Civile e commerciale: modellismo, riprese aeree, raccolta dati, supporto alle forze di soccorso, sorveglianza.
 		\end{itemize}
-	\item Altitudine e portata massimi:
+	\item Altitudine e portata massimi \cite{uasglobal} :
 		\begin{itemize}
 			\item Portatili: fino a 600 m di altitudine e portata di 2 km; 
 			\item Corto raggio: fino a 1500 m di altitudine e 10 km di portata;
@@ -65,7 +72,7 @@ Non esiste un metodo unico per poter categorizzare efficacemente i droni, in qua
 \end{itemize}
 
 \subsection[Struttura]{Struttura}
-La struttura di un drone è generalmente ricorrente, e può essere schematizzata nelle seguenti componenti \cite{fanet}:
+La struttura di un drone è generalmente ricorrente, e può essere schematizzata nelle seguenti componenti \cite{sahingoz2014networking}:
 \begin{itemize}
 	\item Fusoliera: l'assenza di equipaggio a bordo permette di poterla costruire con materiali più leggeri ed economici. Dimensione e forma variano grandemente in base alla funzionalità del drone e al peso che deve trasportare;
 	\item Alimentazione: i droni di ridotta dimensione, come i MAV e gli SUAV, sono generalmente alimentati da batterie, mentre quelli più grandi richiedono i motori convenzionali di un aereo;
@@ -76,29 +83,27 @@ La struttura di un drone è generalmente ricorrente, e può essere schematizzata
 	\item Sistemi di comunicazione: i sistemi di comunicazione del drone sono generalmente ad onde radio, e possono avvenire con l'operatore a terra in maniera diretta o indiretta (tramite un satellite o un altro velivolo), in base alla reciproca distanza. Il flusso di comunicazione è tipicamente composto in uplink dai comandi dell'operatore, e in downlink da segnali video, telemetria o rilevazioni dei sensori. Molti  MAV e SUAV comunicano via Wi-Fi, rendendo possibile pilotarli tramite smartphone o tablet.  
 \end{itemize}
 
-\subsection[Autonomia di volo]{Autonomia di volo}
+\subsection[Autonomia di volo]{Autonomia di volo} \label{sect:autonomia}
 Una delle attuali sfide nel mondo degli Small UAV è l'incremento del loro tempo di volo, che generalmente non supera i 10-20 minuti prima di dover effettuare la ricarica della batteria. \\
 Forza del vento, tipologia dei sensori installati, peso del drone e frequenza di movimento sono i principali fattori che incidono sul consumo della batteria. 
 È possibile caricare il drone con più batterie in parallelo, ma più batterie equivalgono a maggior peso da sollevare e a un conseguente maggior consumo di energia da parte dei motori, rendendo quindi risibile il contributo di più batterie alla durata di volo.\\
 Negli ultimi anni è stata esplorata la strada dei pannelli solari come fonte energetica ausiliaria per incrementare l'autonomia di volo. 
 I risultati migliori, seppur ancora lontani dall'autonomia energetica, sono stati ottenuti sui droni ad ala fissa \cite{newatlas} ricoprendo le ali di pannelli, mentre sui quadrirotori l'ingombro dell'attrezzatura aggiuntiva causava un effetto vela che riduceva la stabilità in volo \cite{diydrones}.\\ Se in campo commerciale ed amatoriale i risultati sono stati poco incoraggianti, non è andata così nel campo dei grandi velivoli: seppur guidato da un pilota, il progetto Solar Impulse 2, un aereo completamente alimentato dall'energia solare, ha completato il giro del mondo nell'estate del 2016 \cite{theguardian}, mentre Facebook sta attivamente testando l'uso di droni solari per fornire connettività a internet ai Paesi del Terzo Mondo con il progetto Aquila \cite{fbaquila}.\\
 
-\clearpage
-
 \section[Reti ad-hoc]{Reti ad-hoc}
-Una rete Ad-hoc è una tipologia di WLAN decentralizzata in cui è assente la tradizionale infrastruttura delle reti managed (Access Point, router, switch, etc.), in quanto sono gli stessi nodi a occuparsene, agendo come router. \\
+Una rete Ad-hoc è una tipologia di WLAN decentralizzata in cui è assente la tradizionale infrastruttura delle reti managed (AP, router, switch, etc.), in quanto sono gli stessi nodi a occuparsene, agendo come routers. \\
 La rete ad-hoc consiste in un gruppo di client mobili che formano spontaneamente una rete temporanea, dinamica e auto-configurante (ad esempio, per comunicare o condividere dati). 
 Ciascun nodo potrà comunicare direttamente con tutti quelli entro il suo range trasmissivo, e tramite multi-hop con quelli al di fuori di esso. \\
 Poiché i client sono liberi di muoversi, la topologia di queste reti tende a cambiare velocemente e in maniera non prevedibile: possono verificarsi variazioni di routes, partizionamento del grafo di rete, fluttuazioni nella capacità dei link, con conseguente perdita di pacchetti, perciò i protocolli di rete devono avere un alto grado di adattabilità e reattività, per  monitorare lo stato dei link e regolare i flussi di traffico di conseguenza.
 L'assenza di infrastruttura di routing dedicata richiede che il network management sia distribuito tra tutti i nodi, per esempio tramite flussi di traffico di controllo, aggiungendo un ulteriore livello di complessità. \\
-Le reti ad-hoc sono tipicamente impiegate in quelle situazioni in cui l'infrastruttura di rete è assente, inadatta o compromessa: alcuni casi d'uso possono essere la condivisione di dati in un meeting, comunicazioni militari, networking, servizi veicolari (trasmissione di news, intensità del traffico, musica, etc.), gaming, o l'instaurazione di sistemi di comunicazione per le squadre di soccorso in seguito a calamità naturali. \\
+Le reti ad-hoc sono tipicamente impiegate in quelle situazioni in cui l'infrastruttura di rete è assente, inadatta o compromessa: alcuni casi d'uso possono essere la condivisione di dati in un meeting, comunicazioni militari, networking, servizi veicolari (trasmissione di news, intensità del traffico, musica, etc.), gaming, o l'instaurazione di sistemi di comunicazione per le squadre di soccorso in seguito a calamità naturali \cite{7402025}. \\
 I principali vantaggi delle reti ad-hoc sono la capacità di auto-configurazione dei nodi, richiedendo un intervento minimo dell'utente, la velocità di deployment, il self-healing, ovvero la capacità della rete di riconfigurarsi autonomamente in seguito a un cambio della sua topologia, la scalabilità e i costi ridotti dovuti dall'assenza dell'infrastruttura.\\
-I principali svantaggi di questo tipo di architettura sono la necessità di un elevato grado di adattabilità dei protocolli, a causa dei frequenti cambi di topologia nella rete, l'eterogeneità dei client, in quanto le diverse capacità di trasmissione, ricezione e calcolo dei dispositivi possono causare link asimmetrici, la dipendenza dei client dalla batteria del loro device, la cui durata viene ulteriormente ridotta dalle funzionalità di routing, e la vulnerabilità ad attacchi, a causa dell'assenza di una struttura centrale di autenticazione. \cite{ad hoc mobile wireless networks rounting protocols}
+I principali svantaggi di questo tipo di architettura sono la necessità di un elevato grado di adattabilità dei protocolli, a causa dei frequenti cambi di topologia nella rete, l'eterogeneità dei client, in quanto le diverse capacità di trasmissione, ricezione e calcolo dei dispositivi possono causare link asimmetrici, la dipendenza dei client dalla batteria del loro device, la cui durata viene ulteriormente ridotta dalle funzionalità di routing, e la vulnerabilità ad attacchi, a causa dell'assenza di una struttura centrale di autenticazione. \cite{jayakumar2007ad}
 \\
 In particolare, anche il power management dei nodi può influenzare la topologia della rete: un client può scegliere se aumentare la potenza di trasmissione (e il suo range, di conseguenza) per spedire direttamente un pacchetto al destinatario, oppure ridurla e fare affidamento sulla consegna multi-hop.\\
 Questa scelta porta alla creazione e cancellazione di path, e alla modifica della topologia. 
 Entrambi gli approcci hanno degli svantaggi: trasmettere a maggior potenza riduce il ritardo nella consegna dei messaggi, ma aumenta il consumo della batteria e riduce il throughput della rete, in quanto all'aumento del range corrisponde un aumento nella zona di interferenza, e tutti i nodi interni a questa area dovranno restare silenti fino al termine della trasmissione; la trasmissione a bassa potenza invece riduce il consumo della batteria e aumenta la capacità della rete, ma incrementa il ritardo medio dei pacchetti perché devono passare per più hop prima di giungere a destinazione. \\
-Generalmente un compromesso viene raggiunto regolando dinamicamente la potenza trasmissiva e creando una condivisione di informazioni tra i protocolli di rete e i layer sottostanti. \cite{self organizing, self healing networks}
+Generalmente un compromesso viene raggiunto regolando dinamicamente la potenza trasmissiva e creando una condivisione di informazioni tra i protocolli di rete e i layer sottostanti. \cite{879383}
 
 \subsection[Protocolli di routing]{Protocolli di routing}
 I protocolli di routing vengono impiegati per determinare i path più efficienti (in termini di costi, ritardo, consumo energetico, etc.) attraverso i nodi della rete, che permettano ai messaggi di raggiungere la propria destinazione. \\
@@ -108,12 +113,22 @@ Si possono identificare due principali famiglie di protocolli di routing per le 
 I protocolli proattivi, di cui fanno parte le famiglie Link State e Distance Vector, effettuano un monitoraggio costante della rete e ne mantengono uno “stato” tramite le tabelle di routing. 
 Al verificarsi di un cambiamento nella topologia, inviano messaggi (control traffic) agli altri nodi con le correzioni da apportare alle tabelle.\\ Permettono un rapido inoltro dei pacchetti grazie alle informazioni sempre aggiornate, ma la presenza costante di traffico di controllo introduce un overhead che cresce con la frequenza dei cambi di topologia, e in reti molto dinamiche può portare all'impossibilità di tenere traccia di tutti gli aggiornamenti delle stesse. Esempi di protocolli proattivi sono DSDV (Highly Dynamic Destination-Sequenced Distance Vector routing protocol), HSLS (Hazy Sighted Link State routing protocol), OLSR (Optimized Link State Routing Protocol) e STAR (Source Tree Adaptive routing protocol).\\
 I protocolli on demand (o reattivi), invece, usano un approccio “lazy”, cioè non si preoccupano di mantenere una tabella di path aggiornati, ma richiedono il path di destinazione tramite flooding solo all'ultimo momento, quando sono presenti pacchetti che necessitano di essere instradati.
-Questa tecnica permette una maggior scalabilità e non necessita di traffico di controllo, ma introduce un costante ritardo, detto setup delay, sul primo pacchetto che deve essere spedito a una nuova destinazione (che può diventare gravoso nel caso di traffico intermittente), e rende la rete vulnerabile ad attacchi basati sul flooding. Protocolli reattivi sono AODV (Ad hoc On Demand Distance Vector routing protocol) e DSR (Dynamic Source Routing) \cite{self organizing, self healing wireless network}. \\
+Questa tecnica permette una maggior scalabilità e non necessita di traffico di controllo, ma introduce un costante ritardo, detto setup delay, sul primo pacchetto che deve essere spedito a una nuova destinazione (che può diventare gravoso nel caso di traffico intermittente), e rende la rete vulnerabile ad attacchi basati sul flooding. Protocolli reattivi sono AODV (Ad hoc On Demand Distance Vector routing protocol) e DSR (Dynamic Source Routing) \cite{879383}. \\
 Vi è poi una terza categoria, i protocolli ibridi, che cercano di combinare i vantaggi delle due famiglie, facendo routing proattivo per un ristretto gruppo di nodi (i nodi inizialid ella rete, o quelli considerati più “vicini”) e routing on demand su tutti gli altri. Un esempio è il protocollo ZRP (Zone Routing Protocol).\\
+
+\subsection[Reti Infrastructure VS reti Ad-hoc]{Reti Ad-hoc VS Infrastructure}
+Lo standard IEEE 802.11 per le Wireless Local Area Network (WLAN) prevede due principali modalità di funzionamento delle reti Wi-Fi: modalità infrastruttura (o managed) e modalità ad-hoc. \\
+La modalità infrastruttura, generalmente più diffusa, prevede la presenza di base stations (Wireless Access Points, o APs) cui i client devono connettersi per poter comunicare tra loro. La comunicazione diretta client-client quindi non è ammessa, ma deve essere veicolata passando per l'AP. \\
+Le base station, che svolgono una funzionalità di hub, a loro volta sono connesse, generalmente via cavo, all'infrastruttura centrale della rete e a un router. Esse sono generalmente fisse e forniscono connettività ai nodi client entro il proprio range.\\
+Le reti infrastructure, come dice il nome, si appoggiano a una infrastruttura di rete, perciò sono generalmente pensate con un concetto di permanenza della stessa. 
+La loro installazione e progettazione richiede costi in termini di denaro e tempo, mentre le reti ad-hoc non richiedono dispositivi aggiuntivi e si auto-configurano automaticamente in tempi rapidi. 
+Le antenne degli AP sono generalmente più potenti di quelle equipaggiate da laptop o smartphone, permettendo quindi di comunicare a range superiori.  
+Le reti ad-hoc in generale impongono ai client un maggior consumo di risorse di sistema per far fronte alla mobilità dei nodi e al conseguente cambio della topologia, mentre nelle reti managed gli APs sono generalmente fissi. Questo fattore risulta critico se si considera che i tipici client delle reti ad-hoc sono dotati di batteria, e di conseguenza in questa tipologia di rete la loro autonomia sarà minore.
+Infine, le reti ad-hoc tendono a non scalare bene con il numero di client, a causa della maggior interferenza causata dalle numerose connessioni dirette tra client.\\
 
 \section[Reti FANET]{Reti FANET}
 Generalmente le reti ad-hoc vengono categorizzate in base alla tipologia dei client che le compongono. Le principali sono: MANETs (Mobile), VANETs (Vehicular), SPANs (Smartphone) e FANET (Flying). \\
-Le reti FANET sono reti ad-hoc tra droni, ancora in fase sperimentale, e possono essere viste come un sottoinsieme delle VANET, pur differendone sostanzialmente in termini di capacità, requisiti e problematiche. 
+Le reti FANET sono reti ad-hoc, ancora in fase sperimentale, tra droni equipaggiati con antenne radio, e possono essere viste come un sottoinsieme delle VANET, pur differendone sostanzialmente in termini di capacità, requisiti e problematiche. 
 Tali reti possono essere impiegate sia per per lo scambio di informazioni tra droni, per esempio per coordinarsi nel volo autonomo in “stormo”, sia come relay per mettere in comunicazione client a terra. \\
 Attualmente le FANET impiegano soprattutto gli heavy UAVs, per sfruttarne la maggior potenza di calcolo e trasmissione, oltre che la maggior autonomia di volo, ma grazie alla progressiva riduzione dei costi di produzione si sta sperimentando l'uso di molteplici Small UAVs. \\
 Anche se il singolo SUAV ha capacità limitate, l'impiego di una squadra di droni  porta i seguenti vantaggi:
