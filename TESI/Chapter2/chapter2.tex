@@ -13,7 +13,15 @@
 
 \section[Introduzione al drone]{Introduzione al drone}
 
-I droni, detti anche Unmanned Aerial Vehicles (UAVs) o Unmanned Aircraft Systems (UAS), possono essere definiti, nella maniera più generale, come dei velivoli aerei privi di equipaggio umano a bordo. Essi vengono pilotati in remoto da personale specializzato a terra (Ground Control Station), oppure dispongono di autonomia decisionale. \\
+I droni, detti anche Unmanned Aerial Vehicles (UAVs) o Unmanned Aircraft Systems (UAS), possono essere definiti, nella maniera più generale, come dei velivoli aerei privi di equipaggio umano a bordo. Essi vengono pilotati in remoto da personale specializzato a terra (Ground Control Station, \figurename\ \ref{fig:uavpilotavoidbadweather}), oppure dispongono di autonomia decisionale. \\
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+	\begin{center}
+		\includegraphics[scale=0.12]{uavpilotavoidbadweather}
+	\end{center}
+	\caption{Pilotaggio di un drone militare da remoto.\label{fig:uavpilotavoidbadweather}}
+\end{wrapfigure}
+
 Il volo autonomo è reso possibile tramite tecniche di intelligenza artificiale, utilizzando appositi sensori montati sul drone (come GPS o videocamere) per individuare ostacoli, conoscere la propria posizione e pianificare la rotta, spesso organizzata in waypoints. 
 L'autonomia può essere completa, nel caso in cui tutte le decisioni sul movimento e le azioni sono elaborate dal computer di bordo, oppure parziale, in cui il computer di bordo interviene solo in particolari situazioni, ad esempio quando il drone perde la connessione con il pilota. \\
 
@@ -21,7 +29,7 @@ L'autonomia può essere completa, nel caso in cui tutte le decisioni sul movimen
 Gli UAV sono nati in ambito puramente militare, per compiere missioni offensive o di ricognizione in cui non si poteva garantire l'incolumità del pilota; il loro sviluppo, portato avanti soprattutto dagli Stati Uniti, Israele e dal Regno Unito, ha proseguito di pari passo con la corsa agli armamenti durante le grandi guerre del 1900. \\
 I primi tentativi di realizzare velivoli senza pilota risalgono al periodo della Prima Guerra Mondiale, con l'obiettivo di creare degli “aerei bomba” (\figurename\ \ref{fig:Kettering_Bug}), che in futuro si sarebbero evoluti negli attuali missili teleguidati. 
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{R}{0.5\textwidth}
 	\begin{center}
 		\includegraphics[scale=1.1]{KetteringBug}
 	\end{center}
@@ -36,7 +44,7 @@ Come già accennato, in ambito militare i droni sono impiegati principalmente co
 Un nuovo metodo di impiego li vede coinvolti nel fornire supporto logistico alle truppe a terra, sia come trasporto attrezzatura sia come ponte radio per comunicazioni sicure tra squadre rimaste isolate. \\
 L'impiego dei droni in campo civile invece è estremamente recente, e si studiano continuamente nuovi ambiti in cui poterli impiegare. 
 Generalmente in questo campo si impiegano UAV di dimensioni ben più ridotte rispetto alle controparti militari, spesso veri e propri velivoli aerei. \\
-Oltre allo scopo ricreativo e di fotografia aerea, sono stati impiegati con successo in agricoltura, per monitorare la salute del raccolto (la cosiddetta agricoltura di precisione) o irrigarlo, per ispezionare linee elettriche, condutture o edifici lesionati, nella sorveglianza domestica o di ampie aree geografiche, come supporto alle forze dell'ordine, nel monitoraggio della qualità ambientale dell'aria, come rilevatori di concentrazione di sostanze pericolose per l'uomo in seguito a disastri ambientali, nel supporto alle squadre di soccorso per individuare feriti o dispersi e per portare il prima possibile kit medici e defibrillatori agli operatori sanitari, come corrieri espressi per le spedizioni Amazon \cite{amazon}, contro il bracconaggio e per combattere incendi. \cite{dronespeak} 
+Oltre allo scopo ricreativo e di fotografia aerea, sono stati impiegati con successo in agricoltura, per monitorare la salute del raccolto (la cosiddetta agricoltura di precisione) o irrigarlo, per ispezionare linee elettriche, condutture o edifici lesionati, nella sorveglianza domestica o di ampie aree geografiche, come supporto alle forze dell'ordine, nel monitoraggio della qualità ambientale dell'aria, come rilevatori di concentrazione di sostanze pericolose per l'uomo in seguito a disastri ambientali, nel supporto alle squadre di soccorso per individuare feriti o dispersi e per portare il prima possibile kit medici e defibrillatori agli operatori sanitari, come corrieri espressi per le spedizioni Amazon \cite{amazon}, contro il bracconaggio e per combattere incendi \cite{dronespeak}. 
 
 \subsection[Tassonomia]{Tassonomia}
 Non esiste un metodo unico per poter categorizzare efficacemente i droni, in quanto essi variano enormemente per caratteristiche tecniche e ambiti di utilizzo. Essi infatti possono essere suddivisi per:
@@ -44,7 +52,7 @@ Non esiste un metodo unico per poter categorizzare efficacemente i droni, in qua
 	\item Ambito:
 		\begin{itemize}
 			\item Militare: droni da combattimento, ricognitori, segnalatori di bersagli o esche anti-missile (decoys);
-			\item Logistico: droni in grado di trasportare merci o attrezzature.
+			\item Logistico: droni in grado di trasportare merci o attrezzature;
 			\item Ricerca e sviluppo;
 			\item Civile e commerciale: modellismo, riprese aeree, raccolta dati, supporto alle forze di soccorso, sorveglianza.
 		\end{itemize}
@@ -62,7 +70,7 @@ Non esiste un metodo unico per poter categorizzare efficacemente i droni, in qua
 			\item SUAV (Small UAV): droni sufficientemente piccoli da essere trasportati da una persona e del peso non superiore ai 20-25 kg;
 			\item HUAV (Heavy UAV):  in questa categoria rientrano tutti quei droni la cui struttura è comparabile, in dimensioni, a quella di un velivolo aereo. Hanno elevate capacità di trasporto e possono coprire elevate distanze prima di necessitare di rifornimento. Il loro uso è prevalentemente per scopi militari o di rilevamento.
 		\end{itemize}
-	\item Struttura:
+	\item Configurazione di volo: determina la struttura, la tipologia di motori e gli ambiti in cui può essere impiegato con maggior efficienza. Le principali versioni sono mostrate in \figurename\ \ref{fig:struttura}: 
 		\begin{itemize}
 			\item Multi-rotori: droni che impiegano più di due rotori per il volo. Hanno avuto ampia diffusione in ambito commerciale e modellistico grazie alla semplicità di costruzione, alla stabilità del volo e alla maggior capacità di carico. Le principali limitazioni sono bassa autonomia di volo e ridotta velocità;
 			\item Ad ala fissa: sono equipaggiati con ali simili a quelle degli aerei, dispongono di buona autonomia ma non sono capaci di effettuare volo stazionario. Inoltre non sono generalmente in grado di decollare e atterrare in maniera autonoma, richiedendo sistemi simili a catapulte e paracadute;
@@ -71,8 +79,44 @@ Non esiste un metodo unico per poter categorizzare efficacemente i droni, in qua
 		\end{itemize}
 \end{itemize}
 
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[scale= 1]{sixrotor}
+		\caption{Multi-rotore}
+		\label{fig:multirotor}
+	\end{subfigure}
+	%
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[scale= 0.2]{fixed}
+		\caption{Ad ala fissa}
+		\label{fig:fixed}
+	\end{subfigure}
+	%
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[scale= 1.5]{singlerotor}
+		\caption{Singolo rotore}
+		\label{fig:singlerotor}
+	\end{subfigure}
+	%
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[scale = 0.39]{hybrid}
+		\caption{Ibrido}
+		\label{fig:hybrid}
+	\end{subfigure}
+	\caption{Principali configurazioni di volo dei droni}
+	\label{fig:struttura}
+\end{figure}
+
+
+
 \subsection[Struttura]{Struttura}
-La struttura di un drone è generalmente ricorrente, e può essere schematizzata nelle seguenti componenti \cite{sahingoz2014networking}:
+La struttura di un drone, evidenziata in \figurename\ \ref{fig:uavstructure} è generalmente ricorrente, e può essere schematizzata nelle seguenti componenti \cite{sahingoz2014networking}:
+
 \begin{itemize}
 	\item Fusoliera: l'assenza di equipaggio a bordo permette di poterla costruire con materiali più leggeri ed economici. Dimensione e forma variano grandemente in base alla funzionalità del drone e al peso che deve trasportare;
 	\item Alimentazione: i droni di ridotta dimensione, come i MAV e gli SUAV, sono generalmente alimentati da batterie, mentre quelli più grandi richiedono i motori convenzionali di un aereo;
@@ -83,11 +127,39 @@ La struttura di un drone è generalmente ricorrente, e può essere schematizzata
 	\item Sistemi di comunicazione: i sistemi di comunicazione del drone sono generalmente ad onde radio, e possono avvenire con l'operatore a terra in maniera diretta o indiretta (tramite un satellite o un altro velivolo), in base alla reciproca distanza. Il flusso di comunicazione è tipicamente composto in uplink dai comandi dell'operatore, e in downlink da segnali video, telemetria o rilevazioni dei sensori. Molti  MAV e SUAV comunicano via Wi-Fi, rendendo possibile pilotarli tramite smartphone o tablet.  
 \end{itemize}
 
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.5]{uavstructure}
+	\end{center}
+	\caption{Schema a blocchi dei principali componenti di un drone} \label{fig:uavstructure}
+\end{figure}
+
 \subsection[Autonomia di volo]{Autonomia di volo} \label{sect:autonomia}
 Una delle attuali sfide nel mondo degli Small UAV è l'incremento del loro tempo di volo, che generalmente non supera i 10-20 minuti prima di dover effettuare la ricarica della batteria. \\
 Forza del vento, tipologia dei sensori installati, peso del drone e frequenza di movimento sono i principali fattori che incidono sul consumo della batteria. 
 È possibile caricare il drone con più batterie in parallelo, ma più batterie equivalgono a maggior peso da sollevare e a un conseguente maggior consumo di energia da parte dei motori, rendendo quindi risibile il contributo di più batterie alla durata di volo.\\
-Negli ultimi anni è stata esplorata la strada dei pannelli solari come fonte energetica ausiliaria per incrementare l'autonomia di volo. 
+Negli ultimi anni è stata esplorata la strada dei pannelli solari come fonte energetica ausiliaria per incrementare l'autonomia di volo (\figurename\ \ref{fig:solar}). 
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[scale= 0.15]{solarquad}
+		\caption{Multi-rotore solare}
+		\label{fig:solarquad}
+	\end{subfigure}
+	%
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[scale= 0.4]{solarfixed}
+		\caption{Ad ala fissa solare}
+		\label{fig:solarfixed}
+	\end{subfigure}
+	\caption{Prototipi di droni ad energia solare}
+	\label{fig:solar}
+\end{figure}
+
+
 I risultati migliori, seppur ancora lontani dall'autonomia energetica, sono stati ottenuti sui droni ad ala fissa \cite{newatlas} ricoprendo le ali di pannelli, mentre sui quadrirotori l'ingombro dell'attrezzatura aggiuntiva causava un effetto vela che riduceva la stabilità in volo \cite{diydrones}.\\ Se in campo commerciale ed amatoriale i risultati sono stati poco incoraggianti, non è andata così nel campo dei grandi velivoli: seppur guidato da un pilota, il progetto Solar Impulse 2, un aereo completamente alimentato dall'energia solare, ha completato il giro del mondo nell'estate del 2016 \cite{theguardian}, mentre Facebook sta attivamente testando l'uso di droni solari per fornire connettività a internet ai Paesi del Terzo Mondo con il progetto Aquila \cite{fbaquila}.\\
 
 \section[Reti ad-hoc]{Reti ad-hoc}
@@ -117,7 +189,15 @@ Questa tecnica permette una maggior scalabilità e non necessita di traffico di 
 Vi è poi una terza categoria, i protocolli ibridi, che cercano di combinare i vantaggi delle due famiglie, facendo routing proattivo per un ristretto gruppo di nodi (i nodi inizialid ella rete, o quelli considerati più “vicini”) e routing on demand su tutti gli altri. Un esempio è il protocollo ZRP (Zone Routing Protocol).\\
 
 \subsection[Reti Infrastructure VS reti Ad-hoc]{Reti Ad-hoc VS Infrastructure}
-Lo standard IEEE 802.11 per le Wireless Local Area Network (WLAN) prevede due principali modalità di funzionamento delle reti Wi-Fi: modalità infrastruttura (o managed) e modalità ad-hoc. \\
+Lo standard IEEE 802.11 per le Wireless Local Area Network (WLAN) prevede due principali modalità di funzionamento delle reti Wi-Fi: modalità infrastruttura (o managed) e modalità ad-hoc (\figurename\ \ref{fig:adhoc}). \\
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.7]{adhoc}
+	\end{center}
+	\caption{Rete Infrastructure (a sinistra) e rete Ad-hoc (a destra).} \label{fig:adhoc}
+\end{figure}
+
 La modalità infrastruttura, generalmente più diffusa, prevede la presenza di base stations (Wireless Access Points, o APs) cui i client devono connettersi per poter comunicare tra loro. La comunicazione diretta client-client quindi non è ammessa, ma deve essere veicolata passando per l'AP. \\
 Le base station, che svolgono una funzionalità di hub, a loro volta sono connesse, generalmente via cavo, all'infrastruttura centrale della rete e a un router. Esse sono generalmente fisse e forniscono connettività ai nodi client entro il proprio range.\\
 Le reti infrastructure, come dice il nome, si appoggiano a una infrastruttura di rete, perciò sono generalmente pensate con un concetto di permanenza della stessa. 
@@ -127,9 +207,18 @@ Le reti ad-hoc in generale impongono ai client un maggior consumo di risorse di 
 Infine, le reti ad-hoc tendono a non scalare bene con il numero di client, a causa della maggior interferenza causata dalle numerose connessioni dirette tra client.\\
 
 \section[Reti FANET]{Reti FANET}
-Generalmente le reti ad-hoc vengono categorizzate in base alla tipologia dei client che le compongono. Le principali sono: MANETs (Mobile), VANETs (Vehicular), SPANs (Smartphone) e FANET (Flying). \\
-Le reti FANET sono reti ad-hoc, ancora in fase sperimentale, tra droni equipaggiati con antenne radio, e possono essere viste come un sottoinsieme delle VANET, pur differendone sostanzialmente in termini di capacità, requisiti e problematiche. 
-Tali reti possono essere impiegate sia per per lo scambio di informazioni tra droni, per esempio per coordinarsi nel volo autonomo in “stormo”, sia come relay per mettere in comunicazione client a terra. \\
+Generalmente le reti ad-hoc vengono categorizzate in base alla tipologia dei client che le compongono. Le principali, schematizzate in \tablename\ \ref{tab:adhoc}  sono: MANETs (Mobile), VANETs (Vehicular), SPANs (Smartphone) e FANET (Flying). \\
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.8]{fanet}
+	\end{center}
+	\caption{Tipologie di reti ad-hoc} \label{fig:fanet}
+\end{figure}
+
+
+Le reti FANET sono reti ad-hoc, ancora in fase sperimentale, tra droni equipaggiati con antenne radio, e possono essere viste come un sottoinsieme delle VANET (\figurename\ \ref{fig:fanet}), pur differendone sostanzialmente in termini di capacità, requisiti e problematiche. 
+Tali reti possono essere impiegate sia per lo scambio di informazioni tra droni, per esempio per coordinarsi nel volo autonomo in “stormo”, sia come relay per mettere in comunicazione client a terra. \\
 Attualmente le FANET impiegano soprattutto gli heavy UAVs, per sfruttarne la maggior potenza di calcolo e trasmissione, oltre che la maggior autonomia di volo, ma grazie alla progressiva riduzione dei costi di produzione si sta sperimentando l'uso di molteplici Small UAVs. \\
 Anche se il singolo SUAV ha capacità limitate, l'impiego di una squadra di droni  porta i seguenti vantaggi:
 \begin{itemize}
@@ -153,7 +242,24 @@ Il consumo energetico è un altro fattore chiave nelle FANET: mentre nelle MANET
 La presenza di molteplici droni aggiunge un ulteriore complessità, in quanto occorrono protocolli di coordinazione, organizzazione e path-planning.
 Quest'ultimo consente ai droni di modificare il proprio percorso in reazione a cambiamenti dinamici, come la presenza di ostacoli. \\
 Queste problematiche dimostrano che affinché le FANET possano essere impiegate efficacemente sono necessari nuovi  protocolli di comunicazione, coordinamento e cooperazione tra droni. \\
-Nonostante le somiglianze tra le tipologie di rete, i protocolli usati nelle reti MANET e VANET generalmente non sono utilizzabili nelle FANET o hanno scarse performance, perciò occorre definire nuovi algoritmi di routing dedicati e prevedere modifiche ai layers MAC e network.
+Nonostante le somiglianze tra le tipologie di rete, i protocolli usati nelle reti MANET e VANET generalmente non sono utilizzabili nelle FANET o hanno scarse performance, perciò occorre definire nuovi algoritmi di routing dedicati e prevedere modifiche ai layers MAC e network \cite{7317490}.
+
+\begin{table}[]
+	\small
+	\centering
+	\begin{tabular}{|p{2.2cm}|p{3cm}|p{3cm}|p{3cm}|}
+		\hline
+		& MANET                                                                                                         & VANET                                                                                                                                                                                                 & FANET                                                                                                                                     \\ \hline
+		Tipo di nodo       & Mobile devices (tablet, laptop, smartphone, etc.)                                                             & Veicoli                                                                                                                                                                                               & Droni                                                                                                                                     \\ \hline
+		Descrizione        & Dispositivi mobile in range tra loro si interconnettono in una rete ad-hoc, senza necessità di infrastrutture & Veicoli connessi tra di loro. La comunicazione avviene tra veicoli e tra veicoli e nodi di supporto (Roadside Units) disposti lungo la strada              & I droni costruiscono una rete ad-hoc fra di loro e i nodi a terra                                                                         \\ \hline
+		Mobilità           & Lenta, generalmente al di sotto dei 2 m/s. Il pattern di movimento è tipicamente casuale                      & Alta velocità, in base alla tipologia di strada (urbana o aoutostradale). Il pattern di movimento è generalmente prevedibile in quanto vincolato dalla struttura della strada e dalle norme stradali. & Molto variabile, da stazionario a oltre i 100 m/s, a seconda della tipologia di drone. Il movimento può avvenire in due o tre dimensioni. \\ \hline
+		Topologia          & Casuale, ad-hoc                                                                                               & A stella tra veicoli e infrastruttura stradale, ad-hoc tra i veicoli                                                                                                                                  & A stella tra droni e ground control, ad-hoc o a mesh tra droni                                                                            \\ \hline
+		Dinamicità         & I nodi entrano ed escono dalla rete in maniera imprevedibile, frequenti partizionamenti                       & Maggior dinamicità rispetto la MANET, a causa della maggior velocità dei nodi e delle interferenze del traffico                                                                                       & Variabile, in base alla velocità relativa dei droni                                                                                       \\ \hline
+		Vincoli energetici & Nodi con batteria, autonomia di alcune ore                                                                    & Batteria dei veicoli si ricarica con il movimento                                                                                                                                                     & Durata della batteria proporzionale alla dimensione dello UAV                                                                             \\ \hline
+		Ambiti d'uso       & Distribuzione dell'informazione, hot spot internet, networking                                                & Informazioni di traffico, servizi location based, avvisi di emergenza                                                                                                                                 & Sorveglianza, salvataggio, distribuzione, monitoraggio                                                                                    \\ \hline
+	\end{tabular}
+	\caption{Confronto tra le diverse tipologie di reti ad-hoc} \label{tab:adhoc}
+\end{table}
 
 \subsection[Routing nelle FANET]{Routing nelle FANET}
 Attualmente l'implementazione di algoritmi di routing per FANET ha seguito due strade: creazione di protocolli ad-hoc e modifiche di algoritmi preesistenti per MANET e VANET. \\

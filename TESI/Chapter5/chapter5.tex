@@ -1,4 +1,5 @@
- \chapter{Il modello} \label{chap:modello}
+ \chapter{Il modello I-DARNC} \label{chap:modello}
+ In questo capitolo presenteremo il modello di programmazione lineare intera I-DARNC (Interference-aware  Drone Ad-hoc Relay Network Configuration problem) per il posizionamento minimo e ottimale di un gruppo di droni per mettere in comunicazione gruppi di utenti isolati tra loro, soddisfacendo le loro richieste di traffico. Verranno poi presentate le formulazioni alternative più rilevanti incontrate durante il suo sviluppo.\\
 
 % **************************** Define Graphics Path **************************
 \ifpdf
@@ -6,4 +7,343 @@
 \else
     \graphicspath{{Chapter5/Figs/Vector/}{Chapter5/Figs/}}
 \fi
+
+\section{Formulazione del modello}
+
+\begin{figure}
+	
+		\begin{equation*} \label{eq:fo}
+		\begin{array}{rrclcl}
+		\displaystyle \min & \displaystyle \sum_{v \in P} y_{v} \phantom{XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX}\\
+		\textrm{s.t.}\\
+		\end{array}
+		\end{equation*}
+		
+		% 1
+		\begin{equation} \label{eq:balance}
+		\begin{array}{rrclcl}
+		&\displaystyle \sum_{\substack{i \in V \cup P:\\ d_{iv} \le R}} f^{sd}_{iv} - \displaystyle \sum_{\substack{j \in V \cup P:\\ d_{vj} \le R}} f^{sd}_{vj} & = & B^{sd}_{v} && \forall \; v \in V \cup P, \; (s,d) \in K \\
+		\end{array}
+		\end{equation}
+		
+		% 2
+		% % %	\begin{subequations} \label{eq:activeY}
+		% % %				\begin{equation} \label{eq:2a}
+		% % %				\begin{array}{rrclcl}
+		% % %					& f^{sd}_{ij} & \leq & T^{sd} \, y_{i} && \forall \; i \in P, \; j \in V \cup P, \; i \neq j, \; (s,d) \in K\\
+		% % %				\end{array}
+		% % %				\end{equation}
+		% % %				
+		% % %				\begin{equation} \label{eq:2b}
+		% % %				\begin{array}{rrclcl}
+		% % %					& f^{sd}_{ij} & \leq & T^{sd} \, y_{j} && \forall \; i \in V \cup P, \; j \in P, \; i \neq j, \; (s,d) \in K\\
+		% % %				\end{array}
+		% % %				\end{equation}
+		% % %	\end{subequations}
+		
+		%	% 3
+		%	\begin{subequations} \label{eq:3}
+		%		\begin{equation} \label{eq:3a}
+		%			\begin{array}{rrclcl}
+		%				& x_{ij} & \leq & y_{j} && \forall i \in V', \forall j \in P, i \neq j\\
+		%			\end{array}
+		%		\end{equation}
+		%		
+		%		\begin{equation} \label{eq:3b}
+		%			\begin{array}{rrclcl}
+		%				& x_{ji} & \leq & y_{j} && \forall i \in V', \forall j \in P, i \neq j\\
+		%			\end{array}
+		%		\end{equation}
+		%	\end{subequations}
+		
+		%	% 4
+		%	\begin{equation} \label{eq:4}
+		%		\begin{array}{rrclcl}
+		%			& \displaystyle \sum_{i \in P} y_{i} & \leq & N_{UAV}\\
+		%		\end{array}
+		%	\end{equation}
+		
+		% 11
+		%	\begin{subequations} \label{eq:11}
+		\begin{equation} \label{eq:capTX}
+		\begin{array}{rrclcl}
+		& \displaystyle \sum_{j \in V \cup P} \displaystyle \sum_{(s,d) \in K} f^{sd}_{ij} (1 + A_{ij}) & \leq & U^{TX} y_{i} && \forall \; i \in P \\
+		\end{array}
+		\end{equation}
+		
+		%		\begin{equation} \label{eq:11b}
+		%			\begin{array}{rrclcl}
+		%				& \displaystyle \sum_{j \in P} \displaystyle \sum_{k \in K} f_{ijk} & \leq & U_{TX} && \forall i \in V \\
+		%			\end{array}
+		%		\end{equation}
+		%	\end{subequations}		
+		
+		% 5
+		%	\begin{subequations} \label{eq:5}
+		\begin{equation} \label{eq:capRX}
+		\begin{array}{rrclcl}
+		&\displaystyle \sum_{j \in V \cup P} \displaystyle \sum_{(s,d) \in K} f^{sd}_{ji} & \leq & U^{RX} ( y_{i} - s_{i} ) && \forall \; i \in P\\
+		\end{array}
+		\end{equation}
+		%		
+		%		\begin{equation} \label{eq:5b}
+		%			\begin{array}{rrclcl}		
+		%				&\displaystyle \sum_{j \in P} \displaystyle \sum_{k \in K} f_{jik} & \leq & U_{RX} - s_{i} && \forall i \in V\\
+		%			\end{array}
+		%		\end{equation}
+		%	\end{subequations}
+		% 7
+		%Let $ D_{i}^{\epsilon} = \{ j \in V : d(i,j) \leq R_{\epsilon} \}, $ where d(i,j) = euclidean distance between nodes i and j:  \\
+		%	\begin{subequations} \label{eq:7}
+		%		\begin{equation} \label{eq:7a}
+		%			\begin{array}{rrclcl}
+		%				&\displaystyle \sum_{j \in P : d(i,j) \leq R_{\epsilon}} y_{j} & \leq & M ( z_{i} + 1 - y_{i} ) && \forall i \in P : |D_{i}^{\epsilon}| = 0 \\ 
+		%			\end{array}
+		%		\end{equation}
+		%		
+		%		\begin{equation} \label{eq:7b}
+		%			\begin{array}{rrclcl}
+		%				&\displaystyle \sum_{j \in P : d(i,j) \leq R_{\epsilon}} y_{j} & \leq & M z_{i} && \forall i \in V : |D_{i}^{\epsilon}| = 0 \\ 
+		%			\end{array}
+		%		\end{equation}
+		%		
+		%		\begin{equation} \label{eq:7c}
+		%			\begin{array}{rrclcl}
+		%				&z_{i} & \geq & y_{i} && \forall i \in P : |D_{i}^{\epsilon}| > 0\\
+		%			\end{array}
+		%		\end{equation}
+		%	\end{subequations}
+		
+		
+		
+		\begin{equation} \label{eq:set.z}
+		\begin{array}{rrclcl}
+		& z_{i} & \geq & y_{j} && \forall \; i , j \in P, \; i \neq j : \; d_{ij} \le R_{\epsilon} 
+		\end{array}
+		\end{equation}
+		
+		
+		% 9
+		%	\begin{subequations} \label{eq:9}
+		\begin{equation} \label{eq:setSub}
+		\begin{array}{rrclcl}
+		& \displaystyle \sum_{\substack{j \in P :\\ R_{\epsilon} < d(i,j) \le R }} A_{ji} y_{j} + \displaystyle \sum_{\substack{j \in V :\\ d(i,j) \le R }} A_{ji} & \leq & S_{\max} + (M_i - S_{\max}) o_i %(o_{i} + 1 - y_{i}) 
+		&& \forall \; i \in P\\
+		\end{array}
+		\end{equation}
+		
+		%		\begin{equation} \label{eq:9b}
+		%			\begin{array}{rrclcl}
+		%				& \displaystyle \sum_{\substack{j \in P :\\ d(i,j) \in (R_{\epsilon},R]}} A_{ji} y_{j} & \leq & S_{max} + M o_{i} && \forall i \in V\\
+		%			\end{array}
+		%		\end{equation}
+		%	\end{subequations}
+		
+		% 6
+		\begin{equation} \label{eq:setSmaxZ}
+		\begin{array}{rrclcl}
+		&s_{i} & \geq & S_{\max} ( z_{i} + y_i - 1 ) && \forall \; i \in P \\
+		\end{array}
+		\end{equation}
+		%	\\			
+		
+		% 10
+		%	\begin{subequations} \label{eq:10}
+		\begin{equation} \label{eq:setSmaxO}
+		\begin{array}{rrclcl}
+		&s_{i} & \geq & S_{\max} \,( o_{i} + y_{i} - 1 ) && \forall \; i \in P \\
+		\end{array}
+		\end{equation}
+		
+		%		\begin{equation} \label{eq:10b}
+		%			\begin{array}{rrclcl}	
+		%				&s_{i} & \geq & S_{max} o_{i} && \forall i \in V \\
+		%			\end{array}
+		%		\end{equation}
+		%	\end{subequations}
+		
+		
+		% %\end{small}
+		% %\caption{A MILP model for \pacro~(part I).}\label{figMILP}
+		% %\end{figure}
+		%
+		%
+		%
+		% %\begin{figure}
+		% %\begin{small}	
+		% 8
+		%	\begin{subequations} \label{eq:8}
+		\begin{equation} \label{eq:setSlb}
+		\begin{array}{rrclcl}
+		& s_{i} & \geq & \displaystyle \sum_{\substack{j \in P :\\ R_{\epsilon} < d(i,j) \le R} } A_{ji} y_{j} + \displaystyle \sum_{\substack{j \in V :\\ d(i,j) \le R %\in (R_{\epsilon},R]
+			}}
+			A_{ji} - M_i (1 - y_i + z_i + o_i) %(o_{i} + 1 - y_{i}) 
+			&& \forall \; i \in P\\
+			\end{array}
+			\end{equation}
+			
+			%		\begin{equation} \label{eq:8b}
+			%			\begin{array}{rrclcl}
+			%				& s_{i} & \geq & \displaystyle \sum_{\substack{j \in P :\\ d(i,j) \in (R_{\epsilon},R]}} A_{ji} y_{j} - M o_{i} && \forall i \in V\\
+			%			\end{array}
+			%		\end{equation}
+			%	\end{subequations}
+			
+			
+			
+			
+			%\newline
+			
+			% variables
+			\begin{equation} \label{eq:vars}
+			\begin{array}{rlclcl}	
+			& y_i \in \{0, 1\} && \forall \; i \in P \\
+			%			& x_{ij} \in \{0, 1\} && \forall i \in V', \forall j \in V', i \neq j \\
+			& f^{sd}_{ij} \ge 0 && \forall \; i , j \in V \cup P, \forall (s,d) \in K, i \neq j \\
+			& z_i \in \{0, 1\} && \forall \; i \in P \\
+			& s_i \ge 0 && \forall \; i \in P \\
+			& o_i \in \{0, 1\} && \forall \; i \in P \\
+			\end{array}
+			\end{equation}
+		
+		\caption{Il modello MILP I-DARNC.}\label{fig:MILP}
+	\end{figure}
+
+Il modello presentato in \figurename \ref{fig:MILP} si basa sulla formulazione del problema multi-commodity flow, dove le variabili $f^{sd}_{ij}$ rappresentano la quantità di banda che deve essere riservata sul link tra i nodi $i$ e $j$ per il traffico relativo alla commodity $k$ (che rappresenta univocamente la coppia sorgente-destinazione $s$-$d$). 
+Il routing del traffico richiesto è garantito dal vincolo di bilanciamento (\ref{eq:balance}), dove $B^{sd}_{v} = - T^{sd}$ se $v = s$; $T^{sd}$, se $v = d$; e 0 altrimenti. \\
+Per ogni posizione potenziale $i \in P$ viene definita una variabile $y_i$, che assumerà valore 1 se un drone viene posizionato in $i$, 0 in caso contrario.   
+%Constraints (\ref{eq:activeY}) enable flows only between positions whre drones are positioned.
+I vincoli (\ref{eq:capTX}) e (\ref{eq:capRX}) rappresentano il flusso massimo che può essere trasmesso e ricevuto da una posizione in cui è presente un drone, considerando il fattore di interferenza. In particolare, nel vincolo (\ref{eq:capTX}) il parametro $A_{ij}$ tiene in considerazione la necessità di ritrasmissione dei dati a causa dell'interferenza.\\
+La perdita di capacità di un nodo ricevente posizionato in $i$ viene rappresentata dalla variabile $s_i$, il cui valore è determinato dai vincoli (\ref{eq:set.z}-\ref{eq:setSmaxO}), nella maniera precedentemente descritta dal modello di interferenza adottato. \\
+Ad ogni posizione $i \in P$ sono associate altre due variabili binarie $z_i$ e $o_i$: la variabile $z_i$ (\ref{eq:set.z}) assume valore 1 se all'interno dell'area critica del nodo $i$ viene posizionato almeno un drone (causando l'assegnazione $s_i = S_{max}$), mentre $o_i$ assume valore 1 (\ref{eq:setSub}) se l'interferenza totale causata da tutti i nodi $j$ posizionati a distanza $R_\epsilon < d(i,j) \leq R$ supera il valore massimo $S_{max}$, 0 altrimenti. \\
+La costante big-M del vincolo \ref{eq:setSub} viene dimensionata ponendola uguale al valore del membro sinistro considerando tutte le variabili $y_i$ coinvolte poste a 1.\\ 
+Il valore della variabile $s_i$ viene determinato nei vincoli (\ref{eq:set.z}-\ref{eq:setSmaxO}) nel seguente modo: se $y_i = 0$ i vincoli detti diventano ridondanti, e $s_i$ potrà assumere valore 0; se $z_i = 1$ o $o_i = 1$, allora $s_i$ viene posto al valore $S_{max}$ dal vincolo (\ref{eq:setSmaxZ}) o da (\ref{eq:setSmaxO}), rendendo (\ref{eq:setSlb}) ridondante, altrimenti i vincoli (\ref{eq:setSmaxZ}) e (\ref{eq:setSmaxO}) diventano ridondanti, e il lower bound della riduzione di capacità nella posizione $i$ (minore di $S_{max}$ poiché $o_i = 1$) viene determinato da (\ref{eq:setSlb}).  \\
+
+\section{Formulazioni alternative}
+Oltre al modello principale, su cui sono stati compiuti gli studi e i test che verranno trattati nel \chaptername\ \ref{cap:metodi}, sono stati sviluppati alcuni modelli alternativi per risolvere variazioni del problema originale. \\ Gli aspetti che tali modelli riguardano sono:
+
+\begin{itemize}
+	\item Costi di trasmissione;
+	\item Limite sul numero di droni disponibili;
+	\item Limite sul numero di connessioni simultanee;
+	\item Interferenza tra client e droni.
+\end{itemize}
+
+\subsection{Costi di trasmissione}
+In questa versione si introduce un costo noto $c_{ij}^{sd}$ per la trasmissione di una unità di flusso (per esempio, un pacchetto dati) attraverso il link $(i,j)$ relativo alla commodity $(s,d)$. \\
+Tale costo può essere motivato sia da un punto di vista della rete, per esempio per riflettere lo stato dei nodi o certi parametri di rete, o per sfavorire il transito dei dati su certi link, sia da un punto di vista energetico, in cui il costo di un pacchetto corrisponde al consumo energetico necessario per spedirlo. \\
+Questa versione è stata implementata sostituendo la funzione obbiettivo del modello I-DARC con la seguente: \\
+
+\begin{equation*} \label{eq:costi}
+	\begin{array}{rrclcl}
+		\displaystyle \min & \multicolumn{3}{l}{\displaystyle \sum_{i \in V'} \displaystyle \sum_{j \in V'} \displaystyle \sum_{(s,d) \in K} c_{ij}^{sd} f_{ij}^{sd} + \displaystyle \sum_{v \in P} y_{v}} \\
+	\end{array}
+\end{equation*}
+
+\subsection{Limite sul numero di droni disponibili}
+Questa formulazione può essere considerata più realistica di I-DARC, perché pone un vincolo sul massimo numero di droni che possono essere impiegati ($N_{UAV}$), invece di assumere di averne a disposizione una quantità pari al numero di posizioni potenziali. \\
+Aggiungendo questo vincolo si toglie un grado di libertà al modello, e di conseguenza sarà in grado di risolvere solo un sottoinsieme delle istanze risolvibili da I-DARC. \\
+Per ottenere questa versione occorre aggiungere il vincolo:
+
+\begin{equation*} \label{eq:-4_4}
+	\begin{array}{rrclcl}
+		& \displaystyle \sum_{i \in P} y_{i} & \leq & N_{UAV}\\
+	\end{array}
+\end{equation*} 
+ 
+\subsection{Limite sul numero di connessioni simultanee}
+In questa versione si pone invece un limite superiore e/o inferiore al numero di connessioni che ogni nodo può sostenere in contemporanea. \\
+Imporre un numero massimo può essere utile per bilanciare i flussi della rete, evitando che tutto il traffico si concentri su pochi link, mentre imponendone  un limite inferiore si realizza una semplificazione del concetto di robustezza della rete. \\
+In questa variante è però necessario introdurre le variabili binarie $x_{ij}$, con $i,j \in V'$, dove $x_{ij} = 1$ se si è stabilito un link tra i nodi $i$ e $j$, appesantendo il modello con la necessità di vincoli aggiuntivi per il loro controllo. \\
+Il numero massimo ($L_{max}$) e minimo ($L_{min}$) di connessioni vengono imposti, rispettivamente, dai seguenti vincoli:
+
+\begin{equation*} \label{eq:max}
+	\begin{array}{rrclcl}
+		& \displaystyle \sum_{i \in P} x_{ij} & \leq & L_{max} && \forall j \in V' \\
+	\end{array}
+\end{equation*} 
+
+\begin{equation*} \label{eq:min}
+\begin{array}{rrclcl}
+	& \displaystyle \sum_{i \in P} x_{ij} & \geq & L_{min} && \forall j \in V' \\
+\end{array}
+\end{equation*} 
+
+\subsection{Interferenza tra client e droni}
+In questa formulazione viene ampliato il modello di interferenza, affermando che anche i client, con le loro trasmissioni, possono causare interferenza ai droni, e vice-versa. \\
+I vincoli da integrare alla formulazione base sono:
+
+	\begin{equation*} \label{eq:VcapTX}
+	\begin{array}{rrclcl}
+		& \displaystyle \sum_{j \in P } \displaystyle \sum_{(s,d) \in K} f^{sd}_{ij} (1 + A_{ij}) & \leq & U^{TX} && \forall \; i \in V \\
+	\end{array}
+	\end{equation*}
+	
+	
+	% 5
+	%	\begin{subequations} \label{eq:5}
+	\begin{equation*} \label{eq:VcapRX}
+	\begin{array}{rrclcl}
+	&\displaystyle \sum_{j \in P} \displaystyle \sum_{(s,d) \in K} f^{sd}_{ji} & \leq & U^{RX} - s_{i}  && \forall \; i \in V\\
+	\end{array}
+	\end{equation*}
+	
+		% 9
+		%	\begin{subequations} \label{eq:9}
+		\begin{equation*} \label{eq:VsetSub}
+		\begin{array}{rrclcl}
+		& \displaystyle \sum_{\substack{j \in P :\\ R_{\epsilon} < d(i,j) \le R }} A_{ji} y_{j}  & \leq & S_{\max} + (M_i - S_{\max}) o_i %(o_{i} + 1 - y_{i}) 
+		&& \forall \; i \in V\\
+		\end{array}
+		\end{equation*}
+		
+		% 6
+		\begin{equation*} \label{eq:VsetSmaxZ}
+		\begin{array}{rrclcl}
+		&s_{i} & \geq & S_{\max} z_{i}  && \forall \; i \in V \\
+		\end{array}
+		\end{equation*}
+		%	\\			
+		
+		% 10
+		%	\begin{subequations} \label{eq:10}
+		\begin{equation*} \label{eq:VsetSmaxO}
+		\begin{array}{rrclcl}
+		&s_{i} & \geq & S_{\max} o_{i} && \forall \; i \in V \\
+		\end{array}
+		\end{equation*}
+		
+		% 8
+		%	\begin{subequations} \label{eq:8}
+		\begin{equation*} \label{eq:VsetSlb}
+		\begin{array}{rrclcl}
+		& s_{i} & \geq & \displaystyle \sum_{\substack{j \in P :\\ R_{\epsilon} < d(i,j) \le R} } A_{ji} y_{j}  - M_i (z_i + o_i) %(o_{i} + 1 - y_{i}) 
+			&& \forall \; i \in V\\
+			\end{array}
+			\end{equation*}
+			
+			%		\begin{equation} \label{eq:8b}
+			%			\begin{array}{rrclcl}
+			%				& s_{i} & \geq & \displaystyle \sum_{\substack{j \in P :\\ d(i,j) \in (R_{\epsilon},R]}} A_{ji} y_{j} - M o_{i} && \forall i \in V\\
+			%			\end{array}
+			%		\end{equation}
+			%	\end{subequations}
+			
+			
+			
+			
+			%\newline
+			
+			% variables
+			\begin{equation} \label{eq:vars}
+			\begin{array}{rlclcl}	
+			& y_i \in \{0, 1\} && \forall \; i \in P \\
+			%			& x_{ij} \in \{0, 1\} && \forall i \in V', \forall j \in V', i \neq j \\
+			& f^{sd}_{ij} \ge 0 && \forall \; i , j \in V \cup P, \forall (s,d) \in K, i \neq j \\
+			& z_i \in \{0, 1\} && \forall \; i \in V \cup P \\
+			& s_i \ge 0 && \forall \; i \in V \cup P \\
+			& o_i \in \{0, 1\} && \forall \; i \in V \cup P \\
+			\end{array}
+			\end{equation}
+ 
 

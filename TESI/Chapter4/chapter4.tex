@@ -8,6 +8,16 @@
 \fi
 
 \section{Stato dell'arte}
+La possibilità di impiegare i droni come relays in una FANET li rende una possibile soluzione in situazioni dove gruppi di nodi a terra rimangono isolati dal resto della rete. \\
+In letteratura sono stati proposti vari algoritmi e tecniche per risolvere il posizionamento ottimo di droni in una rete ad-hoc. \\
+In \cite{Sahingoz2014, 6477822} gli autori descrivono il problema da un punto di vista del networking, affermando che una delle principali key enabling technologies per lo sviluppo futuro delle FANET sia la progettazione di nuovi protocolli di rete e l'adattamento di quelli attuali, dato che le FANET introducono nuove sfide e requisiti. \\
+In \cite{1023918} e \cite{Burdakov2010} gli autori propongono un modello MILP centralizzato per coordinare il volo di un gruppo di droni e evitare le collisioni con eventuali ostacoli. \\
+In \cite{6564778}, il problema di posizionare i droni in una rete hub-and-spoke per interconnettere un insieme di client viene formulato come problema MILP, e viene fornito un approccio di Quadratic Integer Programming per determinare la topologia a minimo costo della rete.
+Gli autori concludono affermando che, seppure un approccio quadratico riduca notevolmente il numero di vincoli e abbia performance migliori, rispetto la controparte lineare, la ricerca di un modello lineare, qualora possibile, sarebbe sempre da preferire grazie alle tecniche di risoluzione di alta qualità disponibili.\\
+In \cite{4455114} il modello proposto si focalizza sull'impiego un drone per migliorare la connettività della rete ad-hoc sottostante, ottimizzando i flussi di traffico con un modello multi-commodity flow, ma considera la presenza di un singolo drone e assume che gli utenti sottostanti siano già tra loro interconnessi, oltre a non considerare il problema dell'interferenza. \\
+Per la risoluzione di questo problema sono stati proposti anche approcci distribuiti, come in \cite{Correll09ad-hocwireless}, dove le decisioni sul posizionamento e lo spostamento sono delegate ai droni, che sono in grado di apprendere informazioni sullo stato della rete e sulle loro posizioni reciproche e agire di conseguenza, e in \cite{6162393}, in cui gli UAV usano sensori (come il GPS) o parametri di rete (come il Received Signal Strength Indicator, o RSSI) per posizionarsi nello spazio e ottimizzare la comunicazione con i nodi a terra. \\
+Un altro approccio ampiamente usato è quello delle metaeuristiche: in \cite{5983050} vengono proposti e confrontati due algoritmi, basati su Hill Climbing e Tabu Search, che valutano le posizioni migliori in cui disporre dei nodi di supporto che permettano di riconnettere sezioni della rete originale rimasti isolati, in \cite{1495151} gli autori realizzano un algoritmo dinamico per minimizzare il numero di droni, prendendo in considerazione il problema del movimento casuale dei client e dei protocolli di routing necessari ma senza analizzare il problema dell'interferenza, mentre in \cite{Rohde20131893} si impiega un algoritmo genetico per posizionare i nodi relay in modo da massimizzare il throughput della rete e consentire il self-healing dei link che diventano offline. \\     
+Per quanto riguarda la gestione dell'interferenza, è generalmente molto complesso predirla in maniera statica, a causa della dinamicità dell'ambiente in cui la rete si trova e dei fattori che concorrono a causarla. Di  conseguenza, generalmente si cerca di valutarla in tempo reale monitorando determinati parametri di qualità della rete \cite{Halperin:2010:PPD:1851275.1851203,6151307} e di prevenirla attraverso opportune scelte di design in fase di progettazione, pe resempio tramite channel allocation \cite{7383864}. \\
 
 \section{Interferenza radio}
 Nelle comunicazioni wireless la minimizzazione dell'interferenza è un problema primario, dato che al suo crescere aumenta il rischio di collisione tra pacchetti e la conseguente necessità di ritrasmissione, riducendo le performance globali della rete. \\
@@ -25,11 +35,11 @@ Definiamo con $A_{ij}$ il coefficiente di interferenza, inteso come riduzione di
 In base alla distanza reciproca fra due nodi, il fattore di interferenza viene valutato in due modi differenti. \\
 Per ciascun nodo, definiamo una seconda area circolare di raggio $R_\epsilon$ ($R_\epsilon << R$), detta Area Critica, al cui interno l'interferenza causata da un eventuale nodo è massima, e la corona circolare identificata dalla differenza delle aree trasmissiva e critica, come si può vedere in \figurename\ \ref{fig:noderange}. \\
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{R}{0.5\textwidth}
 	\begin{center}
 		\includegraphics[scale=0.75]{noderange}
 	\end{center}
-	\caption{Shadowing model's node communication range\label{fig:noderange}}
+	\caption{Schema del range di comunicazione di un nodo\label{fig:noderange}}
 \end{wrapfigure}
 
 L'area critica è la zona in cui ogni nodo è più sensibile all'interferenza. Per questo motivo, dati due nodi $i$ e $j$ e la funzione $d(x,y)$ che ne calcola la distanza geometrica, se $d(i,j) < R_\epsilon $ i due nodi si interferiranno a vicenda in maniera massima, quindi $A_{ij} = S_{max}$.
@@ -44,12 +54,14 @@ Poiché ogni link wireless è soggetto a differenti fenomeni di interferenza (os
 I radio propagation models sono totalmente empirici, perché sviluppati su ampi campioni di dati raccolti in specifici scenari, quindi non sono in grado di predire il path loss esatto, ma il suo comportamento generale in quel determinato set di condizioni.  \\
 Il modello che abbiamo deciso di impiegare è lo Shadowing Model implementato dal simulatore di rete ns-2 \cite{nsMan}, in quanto rappresenta un buon compromesso tra accuratezza, generalità e semplicità di implementazione. \\
 Nello shadowing model il range di comunicazione di ogni nodo è più realistico, in quanto non è un cerchio ideale, ma presenta frastagliature e irregolarità crescenti man mano che ci si allontana dal centro (\figurename\ \ref{fig:shadowing}), per simulare gli effetti del multipath propagation. \\
-\begin{wrapfigure}{r}{0.5\textwidth}
+
+\begin{wrapfigure}{R}{0.5\textwidth}
 	\begin{center}
 		\includegraphics[scale=0.60]{shadowing}
 	\end{center}
 	\caption{Range di comunicazione nello Shadowing Model\label{fig:shadowing}}
 \end{wrapfigure}
+
 Tale fenomeno, presente in ogni comunicazione radio, è causato dalla propagazione in più direzioni di un segnale trasmesso da un'antenna: ciascuna copia del segnale compie percorsi diversi e incontra diversi ostacoli e superfici (acqua, terreno, edifici, montagne, veicoli, etc.), subendo distorsioni prima di sommarsi al segnale originale, introducendo interferenze \cite{umar2004mobile}. \\
 La scelta di questo modello ha come conseguenza che vi è una probabilità non nulla che i messaggi trasmessi entro il range del destinatario non vengano ricevuti. Questa probabilità cresce al crescere della distanza dal nodo ricevente. \\
 Vale la pena far notare che la forma più realistica del range di comunicazione non interferisce con le precedenti assunzioni di un'area trasmissiva circolare perfetta, impiegata all'interno del modello MILP.\\

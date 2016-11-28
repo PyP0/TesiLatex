@@ -1,4 +1,4 @@
- \chapter{Metodi}
+ \chapter{Metodi} \label{cap:metodi}
 
 % **************************** Define Graphics Path **************************
 \ifpdf
@@ -6,4 +6,21 @@
 \else
     \graphicspath{{Chapter6/Figs/Vector/}{Chapter6/Figs/}}
 \fi
+
+\section{Metodi esatti}
+Lo sviluppo di un modello ad-hoc per il nostro problema ha implicato l'impossibilità di testarlo contro i vari data set disponibili in letteratura, in quanto nessuno di quelli esaminati si è rivelato compatibile con le nostre necessità. \\
+Di conseguenza abbiamo creato il nostro personale data set tramite la generazione casuale di istanze, per testare le capacità, le performance e i limiti del modello. Le istanze prodotte differiscono per dimensione della griglia, matrice di traffico, numero dei client e loro posizione nella griglia. I risultati verranno presentati nel \chaptername\ \ref{chap:risultati} \\
+Il modello è stato implementato in C++ utilizzando le CPLEX Callable Library (C API), e risolto con IBM ILOG CPLEX Optimization Studio v12.6.0. \\
+I test sono stati compiuti su un sistema con 4 processori Intel Xeon E5520 @2.27 GHz e 32 GB di RAM, e CPLEX è stato configurato nel seguente modo:
+\begin{itemize}
+	\item Deterministic parallel optimization: tale modalità significa che esecuzioni multiple dello stesso modello, con gli stessi parametri e sulla stessa piattaforma, seguiranno sempre lo stesso path che porta alla soluzione. La modalità alternativa opportunistic, invece, pone meno vincoli sulla sincronizzazione dei threads, quindi anche piccole differenze della loro temporizzazione o nell'ordine di esecuzione dei tasks possono portare a diversi percorsi risolutivi e, di conseguenza, a tempi di esecuzione anche molto diversi; 
+	\item Memory emphasis e node storage: si chiede a CPLEX di adottare politiche di risparmio della memoria e di comprimere  porzioni dell'albero per evitare il più possibile il degrado delle prestazioni causato dall'uso dello swapping;  
+	\item Tree memory growth limit: si pone un limite assoluto alla dimensione massima che può assumere l'albero di branch \& cut durante la ricerca della soluzione, al di sopra del quale l'esecuzione viene terminata;
+	\item Instance time limit: limite massimo di 40 minuti per la soluzione di un'istanza. L'uso del parallelismo deterministico a fronte di un time limit non pone problemi di riproducibilità \cite{cplex2015man} .
+\end{itemize} 
+Il focus sulla conservazione della memoria si è reso necessario per poter gestire, in maniera controllata, la terminazione forzata dell'esecuzione di istanze medio-grandi a causa dell'esagerato consumo di memoria da parte di CPLEX. \\
+I primi test hanno dimostrato che solo piccole istanze posso essere risolte nell'ordine di grandezza dei secondi o dei minuti, mentre le istanze medio-grandi hanno richiesto ore o giorni, e la maggioranza di esse non si è potuta risolvere a causa di limiti sulla memoria disponibile. \\
+Per poter risolvere istanze di dimensione crescente si è perciò resa necessaria l'adozione di un approccio euristico, che verrà descritto nella sezione \ref{sec:euristica}.
+
+\section{Metodi euristici} \label{sec:euristica}
 
