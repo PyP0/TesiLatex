@@ -10,8 +10,8 @@
 \section{Metodi esatti}
 Lo sviluppo di un modello ad-hoc per il nostro problema ha implicato l'impossibilità di testarlo contro i vari data set disponibili in letteratura, in quanto nessuno di quelli esaminati si è rivelato compatibile con le nostre necessità. \\
 Di conseguenza abbiamo creato il nostro personale data set tramite la generazione casuale di istanze, per testare le capacità, le performance e i limiti del modello. Le istanze prodotte differiscono per dimensione della griglia, matrice di traffico, numero dei client e loro posizione nella griglia. I risultati verranno presentati nel \chaptername\ \ref{chap:risultati} \\
-Il modello è stato implementato in C++ utilizzando le CPLEX Callable Library (C API), e risolto con IBM ILOG CPLEX Optimization Studio v12.6.0. \\
-I test sono stati compiuti su un sistema con 4 processori Intel Xeon E5520 @2.27 GHz e 32 GB di RAM, e CPLEX è stato configurato nel seguente modo:
+Il modello è stato implementato in C++ utilizzando le CPLEX Callable Library (C API), e risolto con IBM ILOG CPLEX Optimization Studio v12.6.0, configurato nel seguente modo:
+
 \begin{itemize}
 	\item Deterministic parallel optimization: tale modalità significa che esecuzioni multiple dello stesso modello, con gli stessi parametri e sulla stessa piattaforma, seguiranno sempre lo stesso path che porta alla soluzione. La modalità alternativa opportunistic, invece, pone meno vincoli sulla sincronizzazione dei threads, quindi anche piccole differenze della loro temporizzazione o nell'ordine di esecuzione dei tasks possono portare a diversi percorsi risolutivi e, di conseguenza, a tempi di esecuzione anche molto diversi; 
 	\item Memory emphasis e node storage: si chiede a CPLEX di adottare politiche di risparmio della memoria e di comprimere  porzioni dell'albero per evitare il più possibile il degrado delle prestazioni causato dall'uso dello swapping;  
@@ -20,7 +20,120 @@ I test sono stati compiuti su un sistema con 4 processori Intel Xeon E5520 @2.27
 \end{itemize} 
 Il focus sulla conservazione della memoria si è reso necessario per poter gestire, in maniera controllata, la terminazione forzata dell'esecuzione di istanze medio-grandi a causa dell'esagerato consumo di memoria da parte di CPLEX. \\
 I primi test hanno dimostrato che solo piccole istanze posso essere risolte nell'ordine di grandezza dei secondi o dei minuti, mentre le istanze medio-grandi hanno richiesto ore o giorni, e la maggioranza di esse non si è potuta risolvere a causa di limiti sulla memoria disponibile. \\
-Per poter risolvere istanze di dimensione crescente si è perciò resa necessaria l'adozione di un approccio euristico, che verrà descritto nella sezione \ref{sec:euristica}.
+Per poter risolvere istanze di dimensione crescente si è perciò resa necessaria l'adozione di un approccio euristico, che verrà ora descritto.\\
 
 \section{Metodi euristici} \label{sec:euristica}
+La progettazione delle euristiche presentate si basa sull'idea consolidata di risolvere iterativamente una versione rilassata e semplificata del problema, in cui tutte le variabili binarie e intere diventano continue (pur mantenendo i bound originari) e viene fissato il valore di un certo sottoinsieme di variabili, per ridurre la complessità del modello. \\
+Abbiamo inizialmente scelto un campione di istanze per verificare se e quanto il rilassamento continuo, calcolato da CPLEX, poteva impattare sui tempi di esecuzione e la precisione della soluzione ottima trovata. 
+Abbiamo testato diverse combinazioni di variabili rilassate, ma le performance migliori si sono ottenute applicando il rilassamento su tutte. \\
+%inserire tabella qui
+I risultati hanno confermato che il rilassamento delle variabili impatta in maniera positiva sui tempi di esecuzione, riducendoli in maniera consistente, e che questa tecnica poteva quindi essere impiegata nello sviluppo dell'euristica.
+In seguito abbiamo valutato quale fosse il set di variabili ottimale cui fissare il valore, e abbiamo scelto le $y_i$, in quanto le $z_i$, $s_i$ e $o_i$ sono variabili ausiliarie legate al fattore di interferenza, mentre le $f_{ij}^{sd}$ dipendono in maniera diretta la posizionamento dei droni. \\
+Fissando il valore di ciascuna $y_i$ attraverso l'algoritmo euristico si ottiene un modello più semplice da risolvere, dato che il sotto-problema del posizionamento dei droni è già stato risolto, e rimane quindi quello relativo al dimensionamento dei flussi. 
+Per dare una conferma sperimentale alla nostra scelta, abbiamo osservato su un campione ridotto di istanze che incrementando il numero di variabili $y_i$ fissato i tempi di esecuzione si riducono sensibilmente. \\
+%inserire tabella qui%
+Per ridurre ulteriormente i tempi medi di esecuzione dell'euristica abbiamo poi scelto di massimizzare il numero di variabili di cui è possibile pre-elaborare il valore, una volta effettuato l'assegnamento delle $y_i$. In particolare, è possibile determinare i valori delle variabili $s_i$, $o_i$, $z_i$, e quelli di $f_{ij}^{sd}$ solo se $y_i = 0$ o $y_j = 0$. In questo modo il modello diventa un problema lineare facilmente risolvibile, e lo si può impiegare per determinare in maniera rapida se una soluzione intera esiste.\\
+Lo schema di assegnazione risultante è il seguente: 
+\begin{enumerate}
+	\item $\forall$ $i \in P \mid y_i = 0$:
+	\begin{itemize}
+		\item $z_i = 0$;
+		\item $s_i = 0$;
+		\item $o_i = 0$; 
+		\item $f_{ij}^{sd} = 0$ e $f_{ji}^{sd} = 0$    $\forall j \in V \cup P$
+	\end{itemize} 
+	\item $\forall$ $i \in P \mid y_i = 1$:
+	\begin{itemize}
+		\item $z_i = 1$ se $\exists$ $j \in P \cup V \mid d(i,j) \leq R_\epsilon$, 0 altrimenti;
+		\item $s_i = \sum\limits_{\substack{j \in P :\\ R_{\epsilon} < d(i,j) \le R} } A_{ji} y_{j} + \sum\limits_{\substack{j \in V :\\ d(i,j) \le R }} A_{ji}$ se $z_i = 1$, $S_{max}$ altrimenti;
+		\item $o_i = 1$ se $s_i \geq S_{max}$, 0 altrimenti; 
+	\end{itemize} 
+\end{enumerate} 
+%approfondire e ri-formattare con parentesi graffe
+Presenteremo ora gli algoritmi relativi alle due euristiche sviluppate, che possono essere classificate come euristiche costruttive greedy, in quanto partono da una soluzione iniziale, ottenuta con il rilassamento continuo, e successivamente esplorano lo spazio delle variabili $y_i$.
 
+\subsection{Euristica Set Y}
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\State Set $ Y = \emptyset $. Let $ \bar{Y} = \{i \in P \land i \notin Y\}$ \label{set}
+		\State $yValues = solveRelaxedLP(Y)$ \label{solver1}
+		\State $descendingSort(yValues)$ \label{sort}
+		\State $i = \argmax_{i \notin Y} yValues $ \label{choose1} 
+		\State $Y = Y \cup \{i\}$ \label{union1}
+		\While{$ ((!intSolutionFound) \land (|Y| < |yValues|)  )$} \label{while}
+		\State $\forall j \in Y $ set model's $y_j$ variable to $1$ \label{setto1} 
+		\State $\forall  j \in \bar{Y} $, set model's $y_j$ variable to $0$ \label{setto0}
+		\State $solution = solveRelaxedLP(Y)$ \label{solver2}
+		\If{$(relaxedSolutionFound)$} \label{if1}
+		\State $solution = solveIntegralLP(Y)$ \label{solvei}
+		\If{$(IntegralSolutionFound)$} \label{if2}
+		\State $intSolutionFound = true$ \label{found}
+		\Else \label{elsei}
+		\State $i = \argmax_{i \notin Y} yValues $  
+		\State $Y = Y \cup \{i\}$ \label{addy1}
+		\EndIf
+		\Else \label{elser}
+		\State $i = \argmax_{i \notin Y} yValues $ 
+		\State $Y = Y \cup \{i\}$ \label{addy2}	
+		\EndIf
+		\EndWhile
+		\If{$(intSolutionFound)$} \label{ifsolved}
+		\State \textbf{return} $solution$ \label{retsol}
+		\Else
+		\State \textbf{return} $null$
+		\EndIf	
+		
+	\end{algorithmic}
+	\caption{Euristica Set Y \label{alg:heuristic}}
+\end{algorithm}
+
+Definiamo l'insieme $Y$ della soluzione finale, che inizialmente sarà vuoto e crescerà iterativamente inserendovi le variabili $y_i$ selezionate (linea \ref{set}). \\
+La soluzione iniziale (cioè l'array $y_i$) viene determinata risolvendo il rilassamento continuo (linea \ref{solver1}). \\
+Dato che le variabili $y_i$ ora sono continue nel range $[0,1]$, non c'è più un modo univoco per determinare se un drone deve essere posizionato o no in una certa posizione $i$.  
+La nostra euristica è guidata dall'idea che più il valore di $y_i$ è vicino a $1$, più è probabile che un drone debba effettivamente essere posizionato in quella posizione. \\
+Per questo motivo, ordiniamo in modo decrescente l'array della soluzione iniziale e aggiungiamo il valore più alto all'insieme $Y$ (linee \ref{sort}-\ref{union1}). \\
+Successivamente si itera finchè viene trovata una soluzione intera (che sarà quella euristicamente ottima perchè costituita dal minor numero di droni psosibile) o finchè tutte le $y_i$ sono state inserite in $Y$, che si traduce nell'impossibilità di trovare una soluzione per l'ilstanza.\\
+Ogni volta che si aggiunge un nuovo elemento in $Y$, il modello viene aggiornato ponendo tutte le $y_i \in Y$ a $1$ e tutte le $y_i \in \bar{Y}$ a $0$ (linee \ref{setto1}-\ref{setto0}). Questo viene fatto in maniera efficiente modificando i bound delle variabili, piuttosto che aggiungendo ulteriori vincoli. \\
+Dopodichè si risolve il rilassamento del modello aggiornato e si verifica se è stata trovata una soluzione (linea \ref{solver2}). 
+Se la soluzione non esiste, viene aggiunto un nuovo elemento a $Y$ e si passa all'iterazione successiva (linee \ref{elser}-\ref{addy2}). \\
+Se la soluzione del rilassamento esiste, si converte il modello da LP a MIP e si esegue l'ottimizzazione intera (linea \ref{solvei}).
+Se esiste una soluzione intera, l'algoritmo termina con successo e restituisce la soluzione trovata (linee \ref{found},\ref{retsol}), altrimenti cerca il successivo elemento da aggiungere a $Y$ e passa all'iterazione successiva (linee \ref{elsei}-\ref{addy1}).
+
+\subsection{Euristica Binary Y}
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\State $yValues = solveRelaxedLP()$ \label{Bsolver1}
+		\State let $\sigma(i)$ be the position of i in the array $yValues$
+		\State let $n^* = |P| $ be the drones' number of the best solution found
+		\State $descendingSort(yValues)$ \label{stInLP}
+		\State $\overline{n} =|P|$,  $\underline{n} = 1$ \label{Binit}
+		\While {$(\underline{n} \leq \overline{n})$} \label{Bwhile}
+			\State $n = \lfloor (\overline{n} + \underline{n}) / 2 \rfloor$ 
+			\State set model's variable $y_i = 1$ if $\sigma(i) \leq n$, 0 otherwise \label{stFixY}  
+			\State set model's variables $z_i$, $o_i$, $s_i$
+			\State $solution = solveIntegralLP()$ \label{Bsolvei}
+			\If{$(intSolutionFound)$} \label{stNewN}
+				\State $\overline{n} = n -1$
+				\If{$(n \leq n^*)$} 
+					\State $n^* = n$ \label{bestsol}
+				\EndIf
+			\Else
+				\State $\underline{n} = n + 1$ \label{Bendset}
+			\EndIf	
+		\EndWhile
+		\State set model's variable $y_i = 1$ if $\sigma(i) \leq n^*$ \label{stPost}
+		\State $solution = solveIntegralLP()$ 
+		\If{$(intSolutionFound)$} \label{Bifsolved}
+			\State \textbf{return} $solution$ \label{Bretsol}
+		\Else
+			\State \textbf{return} $null$
+		\EndIf
+			
+	\end{algorithmic}
+	\caption{Euristica Binary Y\label{alg:Binheuristic}}
+\end{algorithm}
+
+In questa euristica si effettua una ricerca binaria sul numero di droni, nel seguente modo: si genera la soluzione iniziale risolvendo il rilassamento continuo e si ordina il vettore di $y_i$ risultante in maniera decrescente (linea \ref{stInLP}). Indichiamo con $\sigma(i)$ la posizione di $i$ in tale vettore, mentre $n$ sarà il "cursore" che guiderà la ricerca binaria. \\
+Ad ogni iterazione, si settano a $1$ le variabili $y_i$ del modello tali che la loro posizione nel vettore ordinato sia $\sigma(i) \leq n$ (linea \ref{stFixY}), e a $0$ le restanti, e successivamente si fissano i valori delle variabili $s_i$, $o_i$, $z_i$ come descritto nella sezione \ref{sec:euristica}. Successivamente si risolve il modello LP. \\
+In base al risultato dell'esecuzione del modello, si modifica di conseguenza l'intervallo di ricerca (linee \ref{stNewN}-\ref{Bendset}), e si mantiene la soluzione migliore fin'ora trovata (linea \ref{bestsol}).\\
+Al termine delle iterazioni si effettua una ulteriore ottimizzazione per tentare di ridurre ulteriormente il numero di droni necessari, se possibile (linea \ref{stPost}).	\\
