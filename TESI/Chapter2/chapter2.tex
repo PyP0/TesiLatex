@@ -2,7 +2,7 @@
 %****************************** Second Chapter *********************************
 %*******************************************************************************
 
-\chapter{Contesto tecnologico}
+\chapter{Contesto tecnologico} \label{chap:tecnologico}
 
 \ifpdf
     \graphicspath{{Chapter2/Figs/Raster/}{Chapter2/Figs/PDF/}{Chapter2/Figs/}}
@@ -115,7 +115,7 @@ Non esiste un metodo unico per poter categorizzare efficacemente i droni, in qua
 
 
 \subsection[Struttura]{Struttura}
-La struttura di un drone, evidenziata in \figurename\ \ref{fig:uavstructure} è generalmente ricorrente, e può essere schematizzata nelle seguenti componenti \cite{sahingoz2014networking}:
+La struttura di un drone, evidenziata in \figurename\ \ref{fig:uavstructure} è generalmente ricorrente, e può essere schematizzata nelle seguenti componenti \cite{Sahingoz2014}:
 
 \begin{itemize}
 	\item Fusoliera: l'assenza di equipaggio a bordo permette di poterla costruire con materiali più leggeri ed economici. Dimensione e forma variano grandemente in base alla funzionalità del drone e al peso che deve trasportare;
@@ -197,7 +197,6 @@ Lo standard IEEE 802.11 per le Wireless Local Area Network (WLAN) prevede due pr
 	\end{center}
 	\caption{Rete Infrastructure (a sinistra) e rete Ad-hoc (a destra).} \label{fig:adhoc}
 \end{figure}
-
 La modalità infrastruttura, generalmente più diffusa, prevede la presenza di base stations (Wireless Access Points, o APs) cui i client devono connettersi per poter comunicare tra loro. La comunicazione diretta client-client quindi non è ammessa, ma deve essere veicolata passando per l'AP. \\
 Le base station, che svolgono una funzionalità di hub, a loro volta sono connesse, generalmente via cavo, all'infrastruttura centrale della rete e a un router. Esse sono generalmente fisse e forniscono connettività ai nodi client entro il proprio range.\\
 Le reti infrastructure, come dice il nome, si appoggiano a una infrastruttura di rete, perciò sono generalmente pensate con un concetto di permanenza della stessa. 
@@ -216,7 +215,6 @@ Generalmente le reti ad-hoc vengono categorizzate in base alla tipologia dei cli
 	\caption{Tipologie di reti ad-hoc} \label{fig:fanet}
 \end{figure}
 
-
 Le reti FANET sono reti ad-hoc, ancora in fase sperimentale, tra droni equipaggiati con antenne radio, e possono essere viste come un sottoinsieme delle VANET (\figurename\ \ref{fig:fanet}), pur differendone sostanzialmente in termini di capacità, requisiti e problematiche. 
 Tali reti possono essere impiegate sia per lo scambio di informazioni tra droni, per esempio per coordinarsi nel volo autonomo in “stormo”, sia come relay per mettere in comunicazione client a terra. \\
 Attualmente le FANET impiegano soprattutto gli heavy UAVs, per sfruttarne la maggior potenza di calcolo e trasmissione, oltre che la maggior autonomia di volo, ma grazie alla progressiva riduzione dei costi di produzione si sta sperimentando l'uso di molteplici Small UAVs. \\
@@ -234,7 +232,6 @@ In una FANET si possono distinguere due modelli di comunicazione, che necessitan
 	\item Comunicazione drone-drone: la comunicazione può essere diretta o multihop, e generalmente riguarda il coordinamento di volo e la cooperazione nel compiere un dato task;
 	\item Comunicazione drone-infrastruttura: la comunicazione avviene tra il drone e una ground station (o un satellite) e generalmente consiste nel fornire i dati rilevati dai sensori del drone.
 \end{itemize}
-
 Come già accennato, le reti FANET rappresentano ancora un nuovo campo per la ricerca, e prima che possano raggiungere il loro potenziale devono essere risolte ancora molte problematiche. \\
 In base alla tipologia di drone impiegato ci si può aspettare differenti gradi di mobilità dei nodi, dal volo stazionario del piccolo quadri-rotore all'alta velocità degli HUAVs, e quindi una diversa frequenza di variazione della topologia. 
 Gli stessi droni possono viaggiare a velocità diversa, guastarsi o allontanarsi per effettuare una ricarica, creando partizionamenti e continue riorganizzazioni della rete. \\

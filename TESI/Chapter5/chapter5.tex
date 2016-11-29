@@ -1,5 +1,5 @@
  \chapter{Il modello I-DARNC} \label{chap:modello}
- In questo capitolo presenteremo il modello di programmazione lineare intera I-DARNC (Interference-aware  Drone Ad-hoc Relay Network Configuration problem) per il posizionamento minimo e ottimale di un gruppo di droni per mettere in comunicazione gruppi di utenti isolati tra loro, soddisfacendo le loro richieste di traffico. Verranno poi presentate le formulazioni alternative più rilevanti incontrate durante il suo sviluppo.\\
+ In questo capitolo presenteremo il modello di programmazione lineare intera I-DARNC (Interference-aware Drone Ad-hoc Relay Network Configuration problem) per il posizionamento minimo e ottimale di un gruppo di droni per mettere in comunicazione gruppi di utenti isolati tra loro, soddisfacendo le loro richieste di traffico. Verranno poi presentate le formulazioni alternative più rilevanti incontrate durante il suo sviluppo.\\
 
 % **************************** Define Graphics Path **************************
 \ifpdf
@@ -209,7 +209,7 @@
 		\caption{Il modello MILP I-DARNC.}\label{fig:MILP}
 	\end{figure}
 
-Il modello presentato in \figurename \ref{fig:MILP} si basa sulla formulazione del problema multi-commodity flow, dove le variabili $f^{sd}_{ij}$ rappresentano la quantità di banda che deve essere riservata sul link tra i nodi $i$ e $j$ per il traffico relativo alla commodity $k$ (che rappresenta univocamente la coppia sorgente-destinazione $s$-$d$). 
+Il modello presentato in \figurename\ \ref{fig:MILP} si basa sulla formulazione del problema multi-commodity flow, dove le variabili $f^{sd}_{ij}$ rappresentano la quantità di banda che deve essere riservata sul link tra i nodi $i$ e $j$ per il traffico relativo alla commodity $k$ (che rappresenta univocamente la coppia sorgente-destinazione $s$-$d$). 
 Il routing del traffico richiesto è garantito dal vincolo di bilanciamento (\ref{eq:balance}), dove $B^{sd}_{v} = - T^{sd}$ se $v = s$; $T^{sd}$, se $v = d$; e 0 altrimenti. \\
 Per ogni posizione potenziale $i \in P$ viene definita una variabile $y_i$, che assumerà valore 1 se un drone viene posizionato in $i$, 0 in caso contrario.   
 %Constraints (\ref{eq:activeY}) enable flows only between positions whre drones are positioned.

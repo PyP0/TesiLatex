@@ -1,4 +1,4 @@
- \chapter{Formulazione del problema}
+ \chapter{Formulazione del problema} \label{chap:formulazione}
 
 % **************************** Define Graphics Path **************************
 \ifpdf
@@ -29,7 +29,6 @@ L'area geografica può essere rappresentata bi-dimensionalmente come una griglia
 Chiamiamo $V$ l'insieme degli $n$ utenti posizionati staticamente sulla griglia, e $P$ l'insieme degli $L$ x $H$ punti facenti parte di essa. Definiamo inoltre l'insieme $V' = V \cup P$ come l'insieme dei punti e degli utenti. \\
 Chiamiamo $P$ l'insieme dei punti potenziali della rete, ovvero l'insieme di tutti quei punti della griglia in cui può essere posizionato un drone. Assumiamo che, per motivi di sicurezza, non si possa posizionare un UAV in un punto in cui è già presente un utente. \\
 La rete ad-hoc che si viene a creare può essere modellata come un grafo diretto, dove i nodi rappresentano i membri della rete, quindi sia gli utenti che i droni impiegati, mentre gli archi indicano le connessioni wireless tra i nodi. Ad ogni arco può venire assegnato un peso che indichi un generico tipo di costo trasmissivo (energetico o legato ai parametri della rete). \\
-
 
 Il modello risultante, che verrà introdotto nel capitolo \ref{chap:modello}, può essere descritto come l'ibridazione tra due tipici problemi di ottimizzazione, il Multi-Commodity Flow Problem e il Capacitated Hub Location Problem con allocazione multipla \cite{Alumur20081}. \\
 La risoluzione del modello, infatti, può essere suddivisa logicamente in due passi sequenziali:
