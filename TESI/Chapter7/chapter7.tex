@@ -7,11 +7,9 @@
     \graphicspath{{Chapter7/Figs/Vector/}{Chapter7/Figs/}}
 \fi
 
-\section{Costruzione delle istanze di prova}
-
-\section{Risultati}
+\section{Costruzione del dataset}
 Abbiamo preso in considerazione due tipologie di istanze, basate sui set di posizioni $P$ e illustrate in \figurename\ \ref{figP}, rappresentanti diversi scenari. \\
-La prima tipologia consiste in griglie quadrate o rettangolari complete, ovvero in cui in ogni punto interno è possibile posizionare un drone. La seconda tipologia invece (griglie $btn25$, $btn41$, $btn48$ \cite{degioPal2013}) include posizioni vietate, dette no-flight zones, causate per esempio da ostacoli o divieti di sorvolo. \\
+La prima tipologia consiste in griglie quadrate o rettangolari complete, ovvero in cui in ogni punto interno è possibile posizionare un drone. Le griglie rettangolari, soprattutto se L << H (o viceversa), si rivelano particolarmente interessanti in quanto permettono la costruzione di vere e proprie "catene" di droni. La seconda tipologia invece (griglie $btn25$, $btn41$, $btn48$ \cite{degioPal2013}) include posizioni vietate, dette no-flight zones, causate per esempio da ostacoli o divieti di sorvolo. Queste particolari configurazioni vengono implementate costruendo la griglia completa e successivamente ponendo a 0 il valore minimo e massimo del dominio delle variabili $y_i$ corrispondenti a posizioni vietate.\\
 %
 \begin{figure}
 	\begin{center}
@@ -21,11 +19,23 @@ La prima tipologia consiste in griglie quadrate o rettangolari complete, ovvero 
 \end{figure}
 %
 Le posizioni degli utenti sono state generate in maniera casuale attorno all'area della griglia, con maggiore probabilità attorno ai bordi (ad esempio, le croci blu in \figurename\ \ref{figP}), assicurandosi che tutti i client si trovassero a distanze minori di $R$ da ciascun punto $i \in P$, per evitare istanze impossibili da risolvere a causa del cattivo posizionamento. \\
-Test preliminari per il dimensionamento del dataset hanno dimostrato l'impossibilità di risolvere istanze, con i vincoli temporali e di memoria stabiliti, con più di 30 clients. \\ Per ogni griglia e per ogni numero di utenti nell'insieme $\{10, 20, 30\}$ sono state generate 3 istanze casuali, generando in maniera casuale le posizioni degli utenti e le matrici di traffico. \\ 
-Come detto nel \chaptername\ \ref{cap:metodi}, il modello è stato implementato in C++ utilizzando le CPLEX Callable Library (C API), con tempo massimo di esecuzione di 40 minuti, parallelismo deterministico e focus sull'ottimizzazione della memoria.Le istanze sono state risolte su un sistema con 4 processori Intel Xeon E5520 @2.27 GHz e 32 GB di RAM. \\
-I risultati ottenuti con questo campione del dataset sono mostrati in \tablename \ref{tabRes}. La prima colonna indica il nome della griglia (o la sua dimensione, in numero di punti potenziali, in formato lunghezza x altezza) e il numero di utenti,la seconda colonna si riferisce all'elaborazione con CPLEX, e le restanti due alle euristiche. La colonna Time indica il tempo medio delle tre istanze, la colonna Best il miglior tempo registrato, la colonna Drones il numero di droni minimo necessario.  \\
-Dai risultati possiamo vedere che mentre l'euristica Binary Y perde praticamente sempre contro i risultati CPLEX, l'euristica Set Y presenta performance estremamente migliori nella maggior parte dei casi. \\  
+Test preliminari per il dimensionamento del dataset hanno dimostrato l'impossibilità di risolvere istanze, con i vincoli temporali e di memoria stabiliti, con un numero di clients $n \geq 30$. \\
+Le griglie "complete" impiegate nel dataset, identificate dalla loro dimensione(lunghezza x altezza, in numero di punti) sono le seguenti: 4x8, 6x6, 9x9, 5x10, 6x15, 8x20. Oltre a queste, come già accennato, sono state utilizzate le griglie "speciali" $btn25$, $btn41$, $btn48$.\\
+Per ogni griglia e per ogni numero di utenti nell'insieme $\{5, 10, 15, 20, 25, 30\}$ sono state generate 3 istanze casuali, generando in maniera casuale le posizioni degli utenti e le matrici di traffico. \\
 
+\subsection{Relazione tra dimensione delle istanze e tempi di esecuzione}
+Nella fase di dimensionamento del dataset abbiamo cercato di identificare quali parametri, di una generica istanza, influissero maggiormente sui tempi di esecuzione di CPLEX, e in che maniera:
+\begin{itemize}
+	\item Il numero di client influisce notevolmente sulle dimensioni del modello, in quanto da esso dipende direttamente il numero di commodities dell'istanza ($|K| = n(n-1)$), e di conseguenza il numero di variabili $f_{ij}^{sd}$ generate, il numero di vincoli di flusso (\ref{eq:balance}) e il numero di termini dei vincoli (\ref{eq:capTX}) e (\ref{eq:capRX}); 
+	\item Il numero di punti della griglia è un altro fattore decisivo per i tempi di esecuzione, poiché la cardinalità dell'insieme di posizioni potenziali $P$ è direttamente proporzionale al numero totale di vincoli generati dal modello;
+	\item Il range trasmissivo dei nodi (sia droni che client) influenza la cardinalità dell'insieme di variabili $f_{ij}^{sd}$, in quanto vengono generate solo quelle tali che $d(i,j) \leq R$, e il numero di termini delle sommatorie nei vincoli (\ref{eq:setSub}) e (\ref{eq:setSlb}), in quanto dipendenti dal numero di posizioni potenziali nel range di ciascun nodo. 
+\end{itemize} 
+
+\section{Risultati}
+Come detto nel \chaptername\ \ref{cap:metodi}, il modello è stato implementato in C++ utilizzando le CPLEX Callable Library (C API), con tempo massimo di esecuzione di 40 minuti, parallelismo deterministico e focus sull'ottimizzazione della memoria. Le istanze sono state risolte su un sistema con 4 processori Intel Xeon E5520 @2.27 GHz e 32 GB di RAM. \\
+I risultati ottenuti con questo campione del dataset sono mostrati in \tablename \ref{tabRes}. 
+La prima colonna indica il nome della griglia (cioè la sua dimensione, in numero di punti potenziali, in formato lunghezza x altezza) e il numero di utenti, la seconda colonna si riferisce all'elaborazione con CPLEX, e le restanti due alle euristiche. La colonna Time indica il tempo medio delle tre istanze, la colonna Best il miglior tempo registrato, la colonna Drones il numero di droni minimo necessario.  \\
+%
 \setlength{\tabcolsep}{3.5 pt}
 \renewcommand\arraystretch{1.1}
 \begin{table} 
@@ -67,3 +77,9 @@ Dai risultati possiamo vedere che mentre l'euristica Binary Y perde praticamente
 	\label{tabRes}
 \end{table}
 %
+
+Dai risultati possiamo vedere che mentre l'euristica Binary Y perde praticamente sempre contro i risultati CPLEX, l'euristica Set Y presenta performance estremamente migliori nella maggior parte dei casi. \\ 
+
+
+
+

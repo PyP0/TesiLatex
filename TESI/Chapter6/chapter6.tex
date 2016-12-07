@@ -30,9 +30,25 @@ Abbiamo testato diverse combinazioni di variabili rilassate, ma le performance m
 I risultati hanno confermato che il rilassamento delle variabili impatta in maniera positiva sui tempi di esecuzione, riducendoli in maniera consistente, e che questa tecnica poteva quindi essere impiegata nello sviluppo dell'euristica.
 In seguito abbiamo valutato quale fosse il set di variabili ottimale cui fissare il valore, e abbiamo scelto le $y_i$, in quanto le $z_i$, $s_i$ e $o_i$ sono variabili ausiliarie legate al fattore di interferenza, mentre le $f_{ij}^{sd}$ dipendono in maniera diretta la posizionamento dei droni. \\
 Fissando il valore di ciascuna $y_i$ attraverso l'algoritmo euristico si ottiene un modello più semplice da risolvere, dato che il sotto-problema del posizionamento dei droni è già stato risolto, e rimane quindi quello relativo al dimensionamento dei flussi. 
-Per dare una conferma sperimentale alla nostra scelta, abbiamo osservato su un campione ridotto di istanze che incrementando il numero di variabili $y_i$ fissato i tempi di esecuzione si riducono sensibilmente. \\
+Per dare una conferma sperimentale alla nostra scelta, abbiamo osservato su un campione ridotto di istanze (\tablename\ \ref{tab:fix}) che incrementando il numero di variabili $y_i$ fissato i tempi di esecuzione si riducono sensibilmente. \\
+Sono state analizzate tre semplici istanze con 5 client posizionati casualmente e una griglia 5x5. Le istanze sono state risolte fissando manualmente, in maniera incrementale, le variabili $y_i$ che costituiscono la soluzione ottima.
 %inserire tabella qui%
-Per ridurre ulteriormente i tempi medi di esecuzione dell'euristica abbiamo poi scelto di massimizzare il numero di variabili di cui è possibile pre-elaborare il valore, una volta effettuato l'assegnamento delle $y_i$. In particolare, è possibile determinare i valori delle variabili $s_i$, $o_i$, $z_i$, e quelli di $f_{ij}^{sd}$ solo se $y_i = 0$ o $y_j = 0$. In questo modo il modello diventa un problema lineare facilmente risolvibile, e lo si può impiegare per determinare in maniera rapida se una soluzione intera esiste.\\
+\begin{table}[]
+	\centering
+	\begin{tabular}{@{}llllllll@{}}
+		\cmidrule(r){1-7}
+		& \multicolumn{6}{l}{Numero di posizioni fissate}                                                                                             &  \\ \cmidrule(r){1-7}
+		& \multicolumn{1}{l|}{0}    & \multicolumn{1}{l|}{1}   & \multicolumn{1}{l|}{2}   & \multicolumn{1}{l|}{3}   & \multicolumn{1}{l|}{4}   & 5   &  \\
+		& \multicolumn{6}{l}{Tempo alla sol. ottima (ms)}                                                                                             &  \\ \cmidrule(r){1-7}
+		i0\_u5\_p25 & \multicolumn{1}{l|}{734}  & \multicolumn{1}{l|}{615} & \multicolumn{1}{l|}{590} & \multicolumn{1}{l|}{527} & \multicolumn{1}{l|}{/}   & /   &  \\ \cmidrule(r){1-7}
+		i1\_u5\_p25 & \multicolumn{1}{l|}{1591} & \multicolumn{1}{l|}{816} & \multicolumn{1}{l|}{719} & \multicolumn{1}{l|}{687} & \multicolumn{1}{l|}{470} & 444 &  \\ \cmidrule(r){1-7}
+		i2\_u5\_p25 & \multicolumn{1}{l|}{983}  & \multicolumn{1}{l|}{934} & \multicolumn{1}{l|}{561} & \multicolumn{1}{l|}{531} & \multicolumn{1}{l|}{/}   & /   &  \\ \cmidrule(r){1-7}
+	\end{tabular}
+	\caption{Fix delle variabili e conseguente variazione del tempo di ottimizzazione}
+	\label{tab:fix}
+\end{table}
+%
+\\Per ridurre ulteriormente i tempi medi di esecuzione dell'euristica abbiamo poi scelto di massimizzare il numero di variabili di cui è possibile pre-elaborare il valore, una volta effettuato l'assegnamento delle $y_i$. In particolare, è possibile determinare i valori delle variabili $s_i$, $o_i$, $z_i$, e quelli di $f_{ij}^{sd}$ solo se $y_i = 0$ o $y_j = 0$. In questo modo il modello diventa un problema lineare facilmente risolvibile, e lo si può impiegare per determinare in maniera rapida se una soluzione intera esiste.\\
 Lo schema di assegnazione risultante è il seguente: 
 \begin{enumerate}
 	\item $\forall$ $i \in P \mid y_i = 0$:
@@ -53,6 +69,7 @@ Lo schema di assegnazione risultante è il seguente:
 Presenteremo ora gli algoritmi relativi alle due euristiche sviluppate, che possono essere classificate come euristiche costruttive greedy, in quanto partono da una soluzione iniziale, ottenuta con il rilassamento continuo, e successivamente esplorano lo spazio delle variabili $y_i$.
 
 \subsection{Euristica Set Y}
+%
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\State Set $ Y = \emptyset $. Let $ \bar{Y} = \{i \in P \land i \notin Y\}$ \label{set}
@@ -81,12 +98,11 @@ Presenteremo ora gli algoritmi relativi alle due euristiche sviluppate, che poss
 		\State \textbf{return} $solution$ \label{retsol}
 		\Else
 		\State \textbf{return} $null$
-		\EndIf	
-		
+		\EndIf		
 	\end{algorithmic}
 	\caption{Euristica Set Y \label{alg:heuristic}}
 \end{algorithm}
-
+%
 Definiamo l'insieme $Y$ della soluzione finale, che inizialmente sarà vuoto e crescerà iterativamente inserendovi le variabili $y_i$ selezionate (linea \ref{set}). \\
 La soluzione iniziale (cioè l'array $y_i$) viene determinata risolvendo il rilassamento continuo (linea \ref{solver1}). \\
 Dato che le variabili $y_i$ ora sono continue nel range $[0,1]$, non c'è più un modo univoco per determinare se un drone deve essere posizionato o no in una certa posizione $i$.  

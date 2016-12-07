@@ -19,7 +19,10 @@ Gli autori concludono affermando che, seppure un approccio quadratico riduca not
 In \cite{4455114} il modello proposto si focalizza sull'impiego un drone per migliorare la connettività della rete ad-hoc sottostante, ottimizzando i flussi di traffico con un modello multi-commodity flow, ma considera la presenza di un singolo drone e assume che gli utenti sottostanti siano già tra loro interconnessi, oltre a non considerare il problema dell'interferenza. \\
 Per la risoluzione di questo problema sono stati proposti anche approcci distribuiti, come in \cite{Correll09ad-hocwireless}, dove le decisioni sul posizionamento e lo spostamento sono delegate ai droni, che sono in grado di apprendere informazioni sullo stato della rete e sulle loro posizioni reciproche e agire di conseguenza, e in \cite{6162393}, in cui gli UAV usano sensori (come il GPS) o parametri di rete (come il Received Signal Strength Indicator, o RSSI) per posizionarsi nello spazio e ottimizzare la comunicazione con i nodi a terra. \\
 Un altro approccio ampiamente usato è quello delle metaeuristiche: in \cite{5983050} vengono proposti e confrontati due algoritmi, basati su Hill Climbing e Tabu Search, che valutano le posizioni migliori in cui disporre dei nodi di supporto che permettano di riconnettere sezioni della rete originale rimasti isolati, in \cite{1495151} gli autori realizzano un algoritmo dinamico per minimizzare il numero di droni, prendendo in considerazione il problema del movimento casuale dei client e dei protocolli di routing necessari ma senza analizzare il problema dell'interferenza, mentre in \cite{Rohde20131893} si impiega un algoritmo genetico per posizionare i nodi relay in modo da massimizzare il throughput della rete e consentire il self-healing dei link che diventano offline. \\     
-Per quanto riguarda la gestione dell'interferenza, è generalmente molto complesso predirla in maniera statica, a causa della dinamicità dell'ambiente in cui la rete si trova e dei fattori che concorrono a causarla. Di  conseguenza, generalmente si cerca di valutarla in tempo reale monitorando determinati parametri di qualità della rete \cite{Halperin:2010:PPD:1851275.1851203,6151307} e di prevenirla attraverso opportune scelte di design in fase di progettazione, per esempio tramite channel allocation \cite{7383864}. \\
+Per quanto riguarda la gestione dell'interferenza, è generalmente molto complesso predirla in maniera statica, a causa della dinamicità dell'ambiente in cui la rete si trova e dei fattori che concorrono a causarla.
+Di  conseguenza, generalmente si cerca di valutarla in tempo reale monitorando determinati parametri di qualità della rete \cite{Halperin:2010:PPD:1851275.1851203,6151307} e di prevenirla attraverso opportune scelte di design in fase di progettazione, per esempio tramite channel allocation \cite{7383864}. \\
+Tradizionalmente, l'interferenza è stata implicitamente minimizzata agendo sulla topologia del grafo della rete, riducendone la densità o il grado dei nodi, ottenendo range di comunicazione più corti e, quindi, interferenza più bassa. In \cite{burkhart2004does}, invece, tali tecniche vengono confutate, asserendo che rendere un grafo sparso non riduce automaticamente l'interferenza subita dai nodi, e vengono fornite nuove tecniche costruttive per minimizzarla. \\
+
 
 \section{Interferenza radio}
 Nelle comunicazioni wireless la minimizzazione dell'interferenza è un problema primario, dato che al suo crescere aumenta il rischio di collisione tra pacchetti e la conseguente necessità di ritrasmissione, riducendo le performance globali della rete. \\
@@ -29,20 +32,20 @@ L'obbiettivo principale nella modellizzazione dell'interferenza è stato quello 
 Abbiamo perciò definito un modello statico e locale di interferenza basato sulla distribuzione spaziale dei nodi e sul loro range trasmissivo. Tale modello calcola la riduzione di capacità dei nodi e la fornisce in output sotto forma di fattore di sconto, che può essere impiegato come coefficiente nel modello MILP, mantenendo la linearità del modello.
 
 \subsection{Modello di interferenza}
-Dato che l'interferenza radio dipende da una pluralità di fattori, generalmente molto difficili da determinare a priori e senza dati sperimentali, abbiamo dovuto imporre una forte semplificazione al modello, ovvero che l'interferenza venga valutata tra ogni coppia di nodi mittente-destinatario assumendo che nessun'altra trasmissione stia avvenendo entro il loro range. Questo comporta la riduzione delle sorgenti di interferenza alle sole caratteristiche dell'ambiente e al path loss \cite{Killat:2009:EMP:1554307.1554311}, che possono essere determinati staticamente tramite approssimazioni e modelli empirici. \\
+Dato che l'interferenza radio dipende da una pluralità di fattori, generalmente molto difficili da determinare a priori e senza dati sperimentali, abbiamo dovuto imporre una forte semplificazione al modello, ovvero che l'interferenza venga valutata tra ogni coppia di nodi mittente-destinatario assumendo che nessun'altra trasmissione stia avvenendo entro il loro range. Questo comporta la riduzione delle sorgenti di interferenza alle sole caratteristiche dell'ambiente e al path loss \cite{Killat:2009:EMP:1554307.1554311} (ovvero l'attenuazione di un segnale elettromagnetico conseguente alla sua propagazione nello spazio e a effetti di rifrazione, riflessione, diffrazione o assorbimento), che possono essere determinati staticamente tramite approssimazioni e modelli empirici. \\
 L'interferenza totale che un nodo subisce sarà quindi proporzionale al numero di nodi che trasmettono all'interno del suo range di comunicazione \cite{moaveni2005low, 7377438}, e verrà scontata dalla capacità ottimale di ricezione $U_{RX}$. \\
 Nel caso di elevato livello di interferenza (ad esempio se due droni sono molto vicini tra loro), limitato superiormente al valore $S_{max}$, assumiamo che una minima frazione della capacità $U_{RX}$ sia sempre garantita. Questo livello minimo di capacità, per ogni nodo, è un parametro del modello e corrisponde all'efficienza minima dei protocolli di reti wireless classici \cite{tanenbaum2003computer}. \\
-Ogni nodo è caratterizzato da un'area di trasmissione circolare con raggio $R$, al cui interno gli altri nodi possono riceverne i dati inviati. Questa area trasmissiva coincide con l'area totale di interferenza, perciò se la distanza tra due nodi $i$ e $j$ è maggiore di $R$, le trasmissioni di $i$ non interferiranno con $j$ e viceversa.  \\
+Ogni nodo è caratterizzato da un'area di trasmissione circolare con raggio $R$, al cui interno gli altri nodi possono riceverne i dati inviati. Questa area trasmissiva coincide con l'area totale di interferenza \cite{6547140}, perciò se la distanza tra due nodi $i$ e $j$ è maggiore di $R$, le trasmissioni di $i$ non interferiranno con $j$ e viceversa.  \\
 Definiamo con $A_{ij}$ il coefficiente di interferenza, inteso come riduzione di capacità, che il nodo $j$ subisce a causa della vicinanza del nodo $i$. Si noti che, in questo modello, $A_{ij} = A_{ji}$.
 In base alla distanza reciproca fra due nodi, il fattore di interferenza viene valutato in due modi differenti. \\
 Per ciascun nodo, definiamo una seconda area circolare di raggio $R_\epsilon$ ($R_\epsilon << R$), detta Area Critica, al cui interno l'interferenza causata da un eventuale nodo è massima, e la corona circolare identificata dalla differenza delle aree trasmissiva e critica, come si può vedere in \figurename\ \ref{fig:noderange}. \\
 %
-\begin{wrapfigure}{R}{0.5\textwidth}
+\begin{figure}
 	\begin{center}
 		\includegraphics[scale=0.75]{noderange}
 	\end{center}
 	\caption{Schema del range di comunicazione di un nodo\label{fig:noderange}}
-\end{wrapfigure}
+\end{figure}
 %
 L'area critica è la zona in cui ogni nodo è più sensibile all'interferenza. Per questo motivo, dati due nodi $i$ e $j$ e la funzione $d(x,y)$ che ne calcola la distanza geometrica, se $d(i,j) < R_\epsilon $ i due nodi si interferiranno a vicenda in maniera massima, quindi $A_{ij} = S_{max}$.
 La presenza di molteplici nodi in questa zona non annullerà comunque la capacità minima garantita. \\
@@ -57,14 +60,54 @@ I radio propagation models sono totalmente empirici, perché sviluppati su ampi 
 Il modello che abbiamo deciso di impiegare è lo Shadowing Model implementato dal simulatore di rete ns-2 \cite{nsMan}, in quanto rappresenta un buon compromesso tra accuratezza, generalità e semplicità di implementazione. \\
 Nello shadowing model il range di comunicazione di ogni nodo è più realistico, in quanto non è un cerchio ideale, ma presenta frastagliature e irregolarità crescenti man mano che ci si allontana dal centro (\figurename\ \ref{fig:shadowing}), per simulare gli effetti del multipath propagation. \\
 %
-\begin{wrapfigure}{R}{0.5\textwidth}
+\begin{figure}[!h]
 	\begin{center}
-		\includegraphics[scale=0.60]{shadowing}
+		\includegraphics[scale=0.20]{shadowingcomplete}
 	\end{center}
 	\caption{Range di comunicazione nello Shadowing Model\label{fig:shadowing}}
-\end{wrapfigure}
+\end{figure}
 %
 Tale fenomeno, presente in ogni comunicazione radio, è causato dalla propagazione in più direzioni di un segnale trasmesso da un'antenna: ciascuna copia del segnale compie percorsi diversi e incontra diversi ostacoli e superfici (acqua, terreno, edifici, montagne, veicoli, etc.), subendo distorsioni prima di sommarsi al segnale originale, introducendo interferenze \cite{umar2004mobile}. \\
+Lo shadowing model è costituito da due parti. La prima parte calcola il path loss ($P_L$), e tramite formula inversa fornisce la stima della potenza del segnale ricevuto da una distanza $d$ dal trasmettitore ($\overline{P_r(d)}$). Il path loss viene determinato in funzione della potenza $P_r$ a una distanza di riferimento $d_0$ (${P_r(d_0)}$), che generalmente vale 1-10m per ambienti interni e 10-100m per esterni, e dell'esponente di path loss $\beta$, generalmente determinato empiricamente con misurazioni sul campo. La formula risultante è la seguente:
+%
+\begin{equation*} \label{eq:pathloss}
+	P_L(d) = \frac{P_r(d_0)}{\overline{P_r(d)}} = \left(\frac{d}{d_0}\right)^\beta 
+\end{equation*} 
+% 
+Valori tipici di $\beta$ sono riportati nella seguente \tablename\ \ref{tab:beta}. A valori crescenti di $\beta$ corrispondono ambienti con maggior presenza di ostacoli, che causano una maggiore attenuazione del segnale al crescere della distanza. 
+ 
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{@{}lll@{}}
+		\toprule
+		\multirow{2}{*}{Ambienti esterni} & Free space                & 2         \\ \cmidrule(l){2-3} 
+		& Area urbana               & 2.7 - 5   \\ \midrule
+		\multirow{2}{*}{Ambienti interni} & Linea di visuale libera   & 1.6 - 1.8 \\ \cmidrule(l){2-3} 
+		& Linea di visuale ostruita & 4 - 6     \\ \bottomrule
+	\end{tabular}
+	\caption{Valori empirici per $\beta$} \label{tab:beta}
+\end{table}
+
+La potenza di riferimento $P_r(d_0)$ viene calcolata con il Free space Model \cite{1697062}, considerando cioè che trasmettitore e ricevitore si trovino a distanza $d_0$ in linea di visuale e con condizioni ideali di propagazione dei segnali:
+%
+\begin{equation*} \label{eq:friis}
+	 P_r(d) = \frac{ P_t G_t G_r \lambda^2 }{ (4\pi)^2d^2L } 
+\end{equation*} 
+% 
+Dove $P_t$ è la potenza trasmessa, $G_t$ e $G_r$ i parametri di gain delle antenne trasmittente e ricevente, $L$ è il system loss e $\lambda$ è la lunghezza d'onda. Generalmente $L = 1$ e, per antenne ideali, $G_t = 1$ e $G_r = 1$.\\
+La seconda parte dello shadowing model modella la variabilità del range di comunicazione di un nodo, causato dal multipath propagation, tramite una variabile casuale $X_{dB}$ log-normale (ovvero il cui logaritmo segue una distribuzione normale):
+%
+\begin{equation*} \label{eq:lognormal}
+	f(x) = \frac{1}{x \sigma \sqrt{2 \pi}}\ e^{\left(- \frac{(log(x)- \mu)^2}{2 \sigma^2}\right)}
+\end{equation*} 
+% 
+La variabile log-normale $X_{dB}$ ha media $\mu = 0$ e deviazione standard $\sigma$, detta shadowing deviation ed espressa in deciBel (dB), misurata empiricamente. Valori tipici di $\sigma$ sono 4-12 per ambienti esterni e 3-9 per ambienti interni con diverse concentrazioni di ostacoli.\\
+Il modello di shadowing completo, espresso in dB, è quindi il seguente:
+%
+\begin{equation*} \label{eq:shadowing}
+	P_L(d)_{dB} = - 10\ \beta\ log(\frac{d}{d_0}) + X_{dB}
+\end{equation*} 
+%
 La scelta di questo modello ha come conseguenza che vi è una probabilità non nulla che i messaggi trasmessi entro il range del destinatario non vengano ricevuti. Questa probabilità cresce al crescere della distanza dal nodo ricevente. \\
 Vale la pena far notare che la forma più realistica del range di comunicazione non interferisce con le precedenti assunzioni di un'area trasmissiva circolare perfetta, impiegata all'interno del modello MILP.\\
 Nel modello di interferenza di ns-2, ogni nodo ha un parametro $rxThresh$ che rappresenta la soglia di ricezione del segnale: quando un pacchetto viene ricevuto, se ne testa la potenza di segnale ($P_r$) con $rxThresh$, e se $ P_r \geq rxThresh$ il pacchetto viene considerato ricevuto correttamente. \\
@@ -75,7 +118,17 @@ Successivamente, il valore $P_r$ calcolato dal modello di interferenza deve esse
 	\item Si mappa il valore $f_{flow}^{i,j}$ ottenuto su una scala percentuale di interferenza che va da $0$ (nessuna interferenza) a $S_{max}$ (massima interferenza ammessa dal modello);
 	\item Il valore risultante costituisce il coefficiente $A_{ij}$ e può essere impiegato nel modello MILP come valore percentuale di riduzione della capacità totale del nodo $i$ a causa della presenza del nodo $j$.
 \end{enumerate}
-
+%
+In \figurename\ \ref{fig:interference} si può vedere il confronto tra lo shadowing model di ns-2 da quello da noi adottato. Si simula l'allontanamento progressivo di un nodo trasmittente dal ricevente e si stima la riduzione di capacità percentuale utilizzando i due modelli. \\
+In questo particolare esempio l'area critica ha range $R_\epsilon = 20 m$ e range di comunicazione $R = 250 m$. Entro il range $R_\epsilon$ l'interferenza sarà pari al valore di soglia $S_{max}$, mentre oltre il range trasmissivo massimo la comunicazione non può avvenire, quindi verrà simbolicamente considerata pari al 100\%.
+%
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.6]{interference.eps}
+	\end{center}
+	\caption{Confronto tra il modello di shadowing ns-2 e quello adottato} \label{fig:interference}
+\end{figure}
+%
 
 
 

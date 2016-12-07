@@ -37,7 +37,7 @@ La rete ad-hoc che si viene a creare può essere modellata come un grafo diretto
 	\caption{Backbone di UAVs per connettere gruppi isolati di utenti} \label{fig:grid}
 \end{figure}
 %
-Il modello risultante, che verrà introdotto nel capitolo \ref{chap:modello}, può essere descritto come l'ibridazione tra due tipici problemi di ottimizzazione, il Multi-Commodity Flow Problem e il Capacitated Hub Location Problem con allocazione multipla \cite{Alumur20081}. \\
+Il modello risultante, che verrà introdotto nel capitolo \ref{chap:modello}, può essere descritto come l'ibridazione tra due tipici problemi di ottimizzazione, il Multi-Commodity Flow Problem \cite{doi101287opre262209} e il Capacitated Hub Location Problem con allocazione multipla \cite{Alumur20081}. \\
 La risoluzione del modello, infatti, può essere suddivisa logicamente in due passi sequenziali:
 \begin{enumerate}  
 	\item Individuare il numero minimo di droni necessari e la loro posizione ottimale sulla griglia; 
@@ -49,9 +49,9 @@ Un'istanza tipica del problema viene descritta con:
 	\item Insieme $K$ delle commodities, con $|K| = n (n-1)$;
 	\item Numero massimo di droni disponibili ($N_{UAV}$);
 	\item Dimensione della griglia, in numero di punti;
-	\item Costo di deployment di ciascun drone ($D_v$); 
+	\item Costo di deployment di ciascun drone, se previsto ($D_v$); 
 	\item Matrice di traffico ($T_{sd}$, con $s,d \in V$);
-	\item Matrice dei costi di trasmissione ($C_{ijk}$, con $i,j \in V', k \in K$);
+	\item Matrice dei costi di trasmissione, se previsti ($C_{ijk}$, con $i,j \in V', k \in K$);
 \end{itemize}
 
 \section{Assunzioni}
