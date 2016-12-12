@@ -9,7 +9,7 @@
 
 \section{Metodi esatti}
 Lo sviluppo di un modello ad-hoc per il nostro problema ha implicato l'impossibilità di testarlo contro i vari data set disponibili in letteratura, in quanto nessuno di quelli esaminati si è rivelato compatibile con le nostre necessità. \\
-Di conseguenza abbiamo creato il nostro personale data set tramite la generazione casuale di istanze, per testare le capacità, le performance e i limiti del modello. Le istanze prodotte differiscono per dimensione della griglia, matrice di traffico, numero dei client e loro posizione nella griglia. I risultati verranno presentati nel \chaptername\ \ref{chap:risultati} \\
+Di conseguenza abbiamo creato il nostro personale data set tramite la generazione casuale di istanze, per testare le capacità, le performance e i limiti del modello. Le istanze prodotte differiscono per dimensione della griglia, matrice di traffico, numero dei client e loro posizione nella griglia. I risultati verranno presentati nel \chaptername\ \ref{chap:risultati}. \\
 Il modello è stato implementato in C++ utilizzando le CPLEX Callable Library (C API), e risolto con IBM ILOG CPLEX Optimization Studio v12.6.0, configurato nel seguente modo:
 
 \begin{itemize}
@@ -44,7 +44,7 @@ Sono state analizzate tre semplici istanze con 5 client posizionati casualmente 
 		i1\_u5\_p25 & \multicolumn{1}{l|}{1591} & \multicolumn{1}{l|}{816} & \multicolumn{1}{l|}{719} & \multicolumn{1}{l|}{687} & \multicolumn{1}{l|}{470} & 444 &  \\ \cmidrule(r){1-7}
 		i2\_u5\_p25 & \multicolumn{1}{l|}{983}  & \multicolumn{1}{l|}{934} & \multicolumn{1}{l|}{561} & \multicolumn{1}{l|}{531} & \multicolumn{1}{l|}{/}   & /   &  \\ \cmidrule(r){1-7}
 	\end{tabular}
-	\caption{Fix delle variabili e conseguente variazione del tempo di ottimizzazione}
+	\caption{Effetti del fix delle variabili sul tempo di esecuzione}
 	\label{tab:fix}
 \end{table}
 %
@@ -150,6 +150,6 @@ Se esiste una soluzione intera, l'algoritmo termina con successo e restituisce l
 \end{algorithm}
 
 In questa euristica si effettua una ricerca binaria sul numero di droni, nel seguente modo: si genera la soluzione iniziale risolvendo il rilassamento continuo e si ordina il vettore di $y_i$ risultante in maniera decrescente (linea \ref{stInLP}). Indichiamo con $\sigma(i)$ la posizione di $i$ in tale vettore, mentre $n$ sarà il "cursore" che guiderà la ricerca binaria. \\
-Ad ogni iterazione, si settano a $1$ le variabili $y_i$ del modello tali che la loro posizione nel vettore ordinato sia $\sigma(i) \leq n$ (linea \ref{stFixY}), e a $0$ le restanti, e successivamente si fissano i valori delle variabili $s_i$, $o_i$, $z_i$ come descritto nella sezione \ref{sec:euristica}. Successivamente si risolve il modello LP. \\
-In base al risultato dell'esecuzione del modello, si modifica di conseguenza l'intervallo di ricerca (linee \ref{stNewN}-\ref{Bendset}), e si mantiene la soluzione migliore fin'ora trovata (linea \ref{bestsol}).\\
-Al termine delle iterazioni si effettua una ulteriore ottimizzazione per tentare di ridurre ulteriormente il numero di droni necessari, se possibile (linea \ref{stPost}).	\\
+Ad ogni iterazione, si settano a $1$ le variabili $y_i$ del modello tali che la loro posizione nel vettore ordinato sia $\sigma(i) \leq n$ (linea \ref{stFixY}), e a $0$ le restanti, e successivamente si fissano i valori delle variabili $s_i$, $o_i$, $z_i$ come descritto nella sezione \ref{sec:euristica}. Successivamente si risolve il modello LP.
+In base al risultato dell'esecuzione del modello, si modifica di conseguenza l'intervallo di ricerca (linee \ref{stNewN}-\ref{Bendset}), e si mantiene la soluzione migliore fin'ora trovata (linea \ref{bestsol}).
+Al termine delle iterazioni si effettua una ulteriore ottimizzazione per tentare di ridurre ulteriormente il numero di droni necessari, se possibile (linea \ref{stPost}).

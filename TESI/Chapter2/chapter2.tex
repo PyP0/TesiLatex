@@ -28,12 +28,12 @@ L'autonomia può essere completa, nel caso in cui tutte le decisioni sul movimen
 Gli UAV sono nati in ambito puramente militare, per compiere missioni offensive o di ricognizione in cui non si poteva garantire l'incolumità del pilota; il loro sviluppo, portato avanti soprattutto dagli Stati Uniti, Israele e dal Regno Unito, ha proseguito di pari passo con la corsa agli armamenti durante le grandi guerre del 1900. \\
 I primi tentativi di realizzare velivoli senza pilota risalgono al periodo della Prima Guerra Mondiale, con l'obiettivo di creare degli “aerei bomba” (\figurename\ \ref{fig:Kettering_Bug}), che in futuro si sarebbero evoluti negli attuali missili teleguidati. 
 %
-\begin{wrapfigure}{R}{0.5\textwidth}
+\begin{figure}{}
 	\begin{center}
 		\includegraphics[scale=1.1]{KetteringBug}
 	\end{center}
 	\caption{Kettering Bug, uno dei primi prototipi di UAV militare, 1918.} \label{fig:Kettering_Bug}
-\end{wrapfigure}
+\end{figure}
 %
 Furono perfezionati durante la Seconda Guerra Mondiale, e usati anche come bersagli mobili per addestrare gli addetti alla difesa contraerea, mentre conobbero un forte sviluppo durante i conflitti successivi agli anni '50, in cui vennero impiegati sia come armi offensive che come ricognitori per rimediare alle forti perdite di vite umane subite dall'aeronautica militare.  \\
 I droni militari moderni sono nati a partire dagli anni '90: grazie al forte sviluppo dell'elettronica, la miniaturizzazione dei componenti e il conseguente abbattimento dei costi, l'interesse nei loro confronti è cresciuto sempre di più, fino a renderli una componente rilevante in molti eserciti contemporanei \cite{keane2013brief}.
@@ -187,7 +187,7 @@ Il routing nelle reti ad-hoc deve tenere conto della mobilità dei nodi e delle 
 Questi due aspetti hanno soluzioni conflittuali, in quanto il primo richiede frequenti scambi di informazioni e aggiornamenti delle tabelle di routing, mentre il secondo li dovrebbe minimizzare, riducendo le trasmissioni e mantenendo tabelle di piccole dimensioni. \\
 Si possono identificare due principali famiglie di protocolli di routing per le reti ad-hoc: protocolli proattivi e on demand.\\
 I protocolli proattivi, di cui fanno parte le famiglie Link State e Distance Vector, effettuano un monitoraggio costante della rete e ne mantengono uno “stato” tramite le tabelle di routing. 
-Al verificarsi di un cambiamento nella topologia, inviano messaggi (control traffic) agli altri nodi con le correzioni da apportare alle tabelle.\\ Permettono un rapido inoltro dei pacchetti grazie alle informazioni sempre aggiornate, ma la presenza costante di traffico di controllo introduce un overhead che cresce con la frequenza dei cambi di topologia, e in reti molto dinamiche può portare all'impossibilità di tenere traccia di tutti gli aggiornamenti delle stesse. Esempi di protocolli proattivi sono DSDV (Highly Dynamic Destination-Sequenced Distance Vector routing protocol), HSLS (Hazy Sighted Link State routing protocol), OLSR (Optimized Link State Routing Protocol) e STAR (Source Tree Adaptive routing protocol).\\
+Al verificarsi di un cambiamento nella topologia, inviano messaggi (control traffic) agli altri nodi con le correzioni da apportare alle tabelle.\\ Permettono un rapido inoltro dei pacchetti grazie alle informazioni sempre aggiornate, ma la presenza costante di traffico di controllo introduce un overhead che cresce con la frequenza dei cambi di topologia, e in reti molto dinamiche può portare all'impossibilità di tenere traccia di tutti gli aggiornamenti delle stesse. Esempi di protocolli proattivi sono DSDV (Destination-Sequenced Distance Vector routing protocol), HSLS (Hazy Sighted Link State routing protocol), OLSR (Optimized Link State Routing Protocol) e STAR (Source Tree Adaptive Routing protocol).\\
 I protocolli on demand (o reattivi), invece, usano un approccio “lazy”, cioè non si preoccupano di mantenere una tabella di path aggiornati, ma richiedono il path di destinazione tramite flooding solo all'ultimo momento, quando sono presenti pacchetti che necessitano di essere instradati.
 Questa tecnica permette una maggior scalabilità e non necessita di traffico di controllo, ma introduce un costante ritardo, detto setup delay, sul primo pacchetto che deve essere spedito a una nuova destinazione (che può diventare gravoso nel caso di traffico intermittente), e rende la rete vulnerabile ad attacchi basati sul flooding. Protocolli reattivi sono AODV (Ad hoc On Demand Distance Vector routing protocol) e DSR (Dynamic Source Routing) \cite{879383}. \\
 Vi è poi una terza categoria, i protocolli ibridi, che cercano di combinare i vantaggi delle due famiglie, facendo routing proattivo per un ristretto gruppo di nodi (i nodi inizialid ella rete, o quelli considerati più “vicini”) e routing on demand su tutti gli altri. Un esempio è il protocollo ZRP (Zone Routing Protocol).\\
@@ -211,7 +211,7 @@ Le reti ad-hoc in generale impongono ai client un maggior consumo di risorse di 
 Infine, le reti ad-hoc tendono a non scalare bene con il numero di client, a causa della maggior interferenza causata dalle numerose connessioni dirette tra client.
 
 \section[Reti FANET]{Reti FANET}
-Generalmente le reti ad-hoc vengono categorizzate in base alla tipologia dei client che le compongono. Le principali, schematizzate in \tablename\ \ref{tab:adhoc}  sono: MANETs (Mobile), VANETs (Vehicular), SPANs (Smartphone) e FANET (Flying). \\
+Generalmente le reti ad-hoc vengono categorizzate in base alla tipologia dei client che le compongono. Le principali, schematizzate in \tablename\ \ref{tab:adhoc}, sono: MANETs (Mobile), VANETs (Vehicular), SPANs (Smartphone) e FANET (Flying). \\
 Le reti FANET sono reti ad-hoc, ancora in fase sperimentale, tra droni equipaggiati con antenne radio, e possono essere viste come un sottoinsieme delle VANET (\figurename\ \ref{fig:fanet}), pur differendone sostanzialmente in termini di capacità, requisiti e problematiche. 
 %
 \begin{figure}
@@ -266,7 +266,7 @@ Nonostante le somiglianze tra le tipologie di rete, i protocolli usati nelle ret
 Attualmente l'implementazione di algoritmi di routing per FANET ha seguito due strade: creazione di protocolli ad-hoc e modifiche di algoritmi preesistenti per MANET e VANET. \\
 Si possono distinguere quattro tipologie di protocolli:
 \begin{itemize}
-	\item Statici: le tabelle di routing vengono pre-calcolate e caricate sul drone, per poi non essere più modificate fino al termine della missione. Questa forte limitazione può essere tollerata solo nei casi in cui la topologia della rete rimane fissa nel tempo. Esempi di questa famiglia di protocolli sono LCAD ( Load Carry and Deliver Routing) e il Multi-Level Hierarchical Routing;
+	\item Statici: le tabelle di routing vengono pre-calcolate e caricate sul drone, per poi non essere più modificate fino al termine della missione. Questa forte limitazione può essere tollerata solo nei casi in cui la topologia della rete rimane fissa nel tempo. Esempi di questa famiglia di protocolli sono LCAD (Load Carry and Deliver Routing) e il Multi-Level Hierarchical Routing;
 	\item Proattivi: sono gli algoritmi table-driven per le reti ad-hoc precedentemente descritti. Impiegati nelle FANET garantiscono velocità nel routing, ma la loro necessità di scambiare traffico di controllo aggrava la già ridotta disponibilità di bandwith. Inoltre non sono adatti per reti di grandi dimensioni e in cui i nodi si muovono molto velocemente, poiché hanno tempi di reazione ai cambiamenti di topologia molto lunghi.
 	\item Reattivi: precedentemente descritti come algoritmi on-demand, garantiscono un uso efficiente della banda in quanto non necessitano di traffico di controllo e scambi periodici di messaggi, ma introducono forti delay a causa della tipologia di traffico tipicamente intermittente delle FANET. 
 	\item Ibridi: cercano di unire i vantaggi dei protocolli proattivi e reattivi, riducendo la latenza iniziale e l'overhead dei messaggi di controllo, e sono efficaci anche in reti di grandi dimensioni. 

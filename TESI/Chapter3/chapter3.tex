@@ -11,7 +11,7 @@
 Sono dati un numero $n$ di utenti (client), distribuiti in una area geografica di dimensioni arbitrarie. 
 Ciascun utente possiede un dispositivo portatile dotato di Wi-Fi (smartphone, tablet, etc.) e necessita di comunicare con uno o più degli utenti presenti nell'area, ma non può farlo direttamente per l'assenza dell'infrastruttura di rete, per l'eccessiva distanza che li separa o per non precisati motivi tecnologici. \\
 Sono dati inoltre un numero $d$ di Micro/Small UAVs capaci di volo stazionario (ad esempio, quadricotteri) ed equipaggiati con ricevitori e trasmettitori Wi-Fi. 
-Questi droni possono essere posizionati in volo sopra gli utenti e, interconnettendosi tra loro, creare la backbone di una FANET per collegare tra loro gli utenti isolati, come illustrato in \figurename\ \ref{fig:scenario}.\\
+Questi droni possono essere posizionati in volo sopra gli utenti e, interconnettendosi tra loro, creare la backbone di una FANET per collegare tra loro gli utenti isolati, come illustrato in \figurename\ \ref{fig:scenario}.
 %
 \begin{figure}
 	\begin{center}
@@ -62,7 +62,7 @@ Assumeremo inoltre che l'area geografica in cui si trovano gli utenti sia pianeg
 Riguardo gli utenti, assumiamo che il traffico da loro generato sia una piccola percentuale della capacità complessiva di un nodo, così da poter trascurare gli effetti dell'interferenza da loro causata sui droni. \\
 Come evidenziato nella sezione \ref{sect:autonomia}, attualmente uno dei principali limiti dei droni è dato dalla esigua autonomia di volo. 
 In questo modello assumeremo che i droni siano energeticamente autosufficienti, tramite l'uso di pannelli solari ad alta efficienza \cite{alta} o impiegando un sistema automatizzato di stazioni di ricarica \cite{Song2014}, così da poter fornire un servizio continuo e persistente. 
-Questa scelta rende impossibile il verificarsi di link failures, e il conseguente cambio di topologia, ma può essere simulato risolvendo nuovamente un'istanza con un numero ridotto di droni o vietandone il deployment in certi punti potenziali (No Flight Zones). \\
+Questa scelta rende impossibile il verificarsi di link failures, e il conseguente cambio di topologia, ma può essere simulato risolvendo nuovamente un'istanza con un numero ridotto di droni o vietandone il deployment in certi punti potenziali (no-flight zones). \\
 Dal punto di vista della rete, non considereremo alcun parametro di Quality of Service (QoS) \cite{6686488} e, per mantenere semplice la modellizzazione del grafo, assumeremo che i nodi possano comunicare in modalità full-duplex \cite{6262501}, in modo che sia l'arco diretto che quello inverso possano esistere contemporaneamente.  \\
 Assumeremo inoltre che l'overhead causato dal traffico di controllo, come l'ACK signaling del protocollo TCP, i messaggi di routing o il flooding per diffondere informazioni tra i droni, sia di dimensione trascurabile. 
 Consideriamo inoltre che tutti i devices Wi-Fi montati sui droni e posseduti dagli utenti siano identici in termini di bandwidth, potenza trasmessa (la massima permessa) e range massimo di trasmissione/ricezione (TX/RX) e che siano equipaggiati con antenne ideali isotropiche \cite{zennaro2004radio} che non subiscono interferenza elettromagnetica dagli apparati del drone. \\
